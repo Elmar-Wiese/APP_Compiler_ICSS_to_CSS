@@ -6,13 +6,20 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class LinkedListImplTest {
+    LinkedListImpl<Integer> sut;
 
     @BeforeEach
     void setUp() {
+        sut = new LinkedListImpl();
     }
 
     @Test
-    void addFirst() {
+    void addFirstEmptyList() {
+        ListNode<Integer> test = new ListNode<Integer>(22);
+
+        sut.addFirst(22);
+
+        assertEquals(new LinkedListImpl<Integer>(test, test, 1), sut);
     }
 
     @Test
