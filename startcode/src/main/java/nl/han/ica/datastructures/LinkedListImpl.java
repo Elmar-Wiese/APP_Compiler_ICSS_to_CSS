@@ -1,13 +1,17 @@
 package nl.han.ica.datastructures;
 
-import java.awt.*;
-
 public class LinkedListImpl<T> implements IHANLinkedList<T> {
     int length = 0;
     ListNode<T> first;
     ListNode<T> last;
 
     LinkedListImpl () {
+    }
+
+    LinkedListImpl (ListNode<T> first, ListNode<T> last, int length) {
+        this.length = length;
+        this.first = first;
+        this.last = last;
     }
 
 //    public void add (T value) {
@@ -45,12 +49,24 @@ public class LinkedListImpl<T> implements IHANLinkedList<T> {
 
     @Override
     public void clear() {
-
+        length = 0;
+        first = null;
+        last = null;
     }
 
     @Override
     public void insert(int index, T value) {
+        checkOutOfBounds(index);
+        if (index == 0 || first == null) {
+            addFirst(value);
+        }
 
+        for (ListNode<T> current = first; current != null; current = current.getNext()) {
+            index--;
+            if (index == 0) {
+                insertNode(current, current.getNext(), value);
+            }
+        }
     }
 
     private void insertNode(ListNode<T> prev ,ListNode<T> next, T value) {
@@ -87,35 +103,25 @@ public class LinkedListImpl<T> implements IHANLinkedList<T> {
 
     @Override
     public void delete(int pos) {
+        checkOutOfBounds(pos);
+        if (pos == 0) {
+            removeFirst();
+        } else {
+            for (ListNode<T> current = first; current != null; current = current.getNext()) {
+                pos--;
+                if (pos == 0) {
+                    deleteNode(current, current.getNext());
+                }
+            }
+        }
 
     }
 
-//    public T get(int index) {
-//        checkOutOfBounds(index);
-//        return next.get(index);
-//    }
-
-    @Override
-    public void removeFirst() {
-
+    private void deleteNode(ListNode<T> prev ,ListNode<T> next) {
+            prev.setNext(next.getNext());
     }
 
-    @Override
-    public T getFirst() {
-        return null;
-    }
-
-    @Override
-    public int getSize() {
-        return 0;
-    }
-
-//    private void checkOutOfBounds(int index) {
-//        if (index < 0 || index > length - 1) {
-//            throw new IndexOutOfBoundsException();
-//        }
-//    }
-//
+    //
 //    public void remove(int index) {
 //        checkOutOfBounds(index);
 //        if (index == 0) {
@@ -125,10 +131,54 @@ public class LinkedListImpl<T> implements IHANLinkedList<T> {
 //        }
 //    }
 
+    @Override
+    public T get(int pos) {
+        checkOutOfBounds(pos);
+        T returnValue = null;
+
+        for (ListNode<T> current = first; current != null; current.getNext()) {
+            if(pos == 0) {
+                returnValue = current.getValue();
+            }
+            pos--;
+        }
+
+        return returnValue;
+    }
+
+//    public T get(int index) {
+//        checkOutOfBounds(index);
+//        return next.get(index);
+//    }
+
+    @Override
+    public void removeFirst() {
+        if (first != null) {
+            first = first.getNext();
+        }
+    }
+
+    @Override
+    public T getFirst() {
+        return first.getValue();
+    }
+
+    @Override
+    public int getSize() {
+        return 0;
+    }
+
+    private void checkOutOfBounds(int index) {
+        if (index < 0 || index > length - 1) {
+            throw new IndexOutOfBoundsException();
+        }
+    }
+
+
 
     @Override
     public String toString() {
-        String linker = next != null ? next.toString() : "";
+        String linker = first != null ? first.toString() : "";
         return "LinkedList{" +
                 linker +
                 '}';
