@@ -14,7 +14,7 @@ public class Checker {
 
     public void check(AST ast) {
         // variableTypes = new HANLinkedList<>();
-
+        // variable LinkedList with Hashmap for scope.
     }
 
     

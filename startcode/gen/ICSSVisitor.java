@@ -46,6 +46,12 @@ public interface ICSSVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitExpression(ICSSParser.ExpressionContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link ICSSParser#boolliteral}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitBoolliteral(ICSSParser.BoolliteralContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link ICSSParser#literal}.
 	 * @param ctx the parse tree
 	 * @return the visitor result

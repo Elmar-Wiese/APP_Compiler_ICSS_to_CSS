@@ -74,4 +74,5 @@ propertyname: 'color' | 'background-color' | 'width' | 'height';
 expression: literal;
 
 // BoolLiteral of ColorLiteral of PercentageLiteral of PixelLiteral of ScalarLiteral
-literal: TRUE | FALSE | COLOR | PIXELSIZE | PERCENTAGE | SCALAR;
+boolliteral: TRUE | FALSE;
+literal: boolliteral | COLOR | PIXELSIZE | PERCENTAGE | SCALAR;
