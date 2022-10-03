@@ -50,7 +50,6 @@ public class ASTListener extends ICSSBaseListener {
 	@Override
 	public void exitStylerule(ICSSParser.StyleruleContext ctx) {
 		currentContainer.pop();
-		System.out.println("Exit stylerule");
 	}
 
 	@Override
@@ -114,6 +113,7 @@ public class ASTListener extends ICSSBaseListener {
 //		super.exitExpression(ctx);
 //	}
 
+	// TODO I have added seperate boolliteral. Move the literal out of this class.
 	@Override
 	public void enterLiteral(ICSSParser.LiteralContext ctx) {
 		Literal newLit = null;
