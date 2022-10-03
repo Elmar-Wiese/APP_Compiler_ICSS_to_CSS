@@ -45,5 +45,33 @@ ASSIGNMENT_OPERATOR: ':=';
 
 
 //--- PARSER: ---
-stylesheet: EOF;
+//stylesheet.addChild((new Stylerule())
+stylesheet: stylerule* EOF;
+//.addChild(new TagSelector("p"))
+//				.addChild((new Declaration("background-color"))
+//                        .addChild(new ColorLiteral("#ffffff")))
+//				.addChild((new Declaration("width"))
+//						.addChild(new PixelLiteral("500px")))
 
+stylerule: identity OPEN_BRACE declaration* CLOSE_BRACE; // This is probably greedy need to fix that someway
+
+// TODO
+// Checken of LOWER_IDENT werkt voor alleen a of h1 enz.
+identity: ID_IDENT | CLASS_IDENT | LOWER_IDENT; // Lower ident mag alleen bijv a of h1 zijn.
+
+
+// new Declaration("background-color")  .addChild(new ColorLiteral("#ffffff"))
+// Declaration(String property)
+// 	public PropertyName property;
+//	public Expression expression;
+declaration: propertyname COLON expression SEMICOLON;
+
+// width of height
+// Alleen de properties color, background-color, width en height zijn toegestaan.
+propertyname: 'color' | 'background-color' | 'width' | 'height';
+
+// Literal of Operation of  VariableReference
+expression: literal;
+
+// BoolLiteral of ColorLiteral of PercentageLiteral of PixelLiteral of ScalarLiteral
+literal: TRUE | FALSE | COLOR | PIXELSIZE | PERCENTAGE | SCALAR;
