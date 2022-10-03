@@ -24,4 +24,10 @@ public class ListNode<T> {
     public void setNext(ListNode<T> next) {
         this.next = next;
     }
+
+    @Override
+    public String toString() {
+        String linker = next != null ? "," + next.toString() : "";
+        return  value.toString() + linker;
+    }
 }

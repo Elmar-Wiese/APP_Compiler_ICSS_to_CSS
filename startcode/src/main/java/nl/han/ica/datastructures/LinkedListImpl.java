@@ -3,7 +3,7 @@ package nl.han.ica.datastructures;
 public class LinkedListImpl<T> implements IHANLinkedList<T> {
     int length = 0;
     ListNode<T> first;
-    ListNode<T> last;
+    //ListNode<T> last;
 
     LinkedListImpl () {
     }
@@ -11,7 +11,7 @@ public class LinkedListImpl<T> implements IHANLinkedList<T> {
     LinkedListImpl (ListNode<T> first, ListNode<T> last, int length) {
         this.length = length;
         this.first = first;
-        this.last = last;
+        //this.last = last;
     }
 
 //    public void add (T value) {
@@ -37,9 +37,10 @@ public class LinkedListImpl<T> implements IHANLinkedList<T> {
 
     @Override
     public void addFirst(T value) {
+        length++;
         if (first == null) {
             first = new ListNode<>(value);
-            last = first;
+            //last = first;
         } else {
             first = new ListNode<>(value, first);
         }
@@ -51,20 +52,21 @@ public class LinkedListImpl<T> implements IHANLinkedList<T> {
     public void clear() {
         length = 0;
         first = null;
-        last = null;
+        //last = null;
     }
 
     @Override
     public void insert(int index, T value) {
-        checkOutOfBounds(index);
         if (index == 0 || first == null) {
             addFirst(value);
-        }
-
-        for (ListNode<T> current = first; current != null; current = current.getNext()) {
-            index--;
-            if (index == 0) {
-                insertNode(current, current.getNext(), value);
+        } else {
+            checkOutOfBounds(index - 1);
+            for (ListNode<T> current = first; current != null; current = current.getNext()) {
+                index--;
+                if (index == 0) {
+                    insertNode(current, current.getNext(), value);
+                    length++;
+                }
             }
         }
     }
@@ -72,7 +74,7 @@ public class LinkedListImpl<T> implements IHANLinkedList<T> {
     private void insertNode(ListNode<T> prev ,ListNode<T> next, T value) {
         if (next == null) {
             ListNode<T> inserted = new ListNode<>(value);
-            last = inserted;
+            //last = inserted;
             prev.setNext(inserted);
         } else {
             ListNode<T> inserted = new ListNode<>(value, next);
@@ -111,6 +113,7 @@ public class LinkedListImpl<T> implements IHANLinkedList<T> {
                 pos--;
                 if (pos == 0) {
                     deleteNode(current, current.getNext());
+                    length--;
                 }
             }
         }
@@ -134,28 +137,21 @@ public class LinkedListImpl<T> implements IHANLinkedList<T> {
     @Override
     public T get(int pos) {
         checkOutOfBounds(pos);
-        T returnValue = null;
+        ListNode<T> returnValue = first;
 
-        for (ListNode<T> current = first; current != null; current.getNext()) {
-            if(pos == 0) {
-                returnValue = current.getValue();
-            }
-            pos--;
+        for(int i = 0; i < pos; i++) {
+            returnValue = returnValue.getNext();
         }
 
-        return returnValue;
+        return returnValue.getValue();
     }
-
-//    public T get(int index) {
-//        checkOutOfBounds(index);
-//        return next.get(index);
-//    }
 
     @Override
     public void removeFirst() {
         if (first != null) {
             first = first.getNext();
         }
+        length--;
     }
 
     @Override
@@ -165,7 +161,7 @@ public class LinkedListImpl<T> implements IHANLinkedList<T> {
 
     @Override
     public int getSize() {
-        return 0;
+        return length;
     }
 
     private void checkOutOfBounds(int index) {
@@ -183,4 +179,10 @@ public class LinkedListImpl<T> implements IHANLinkedList<T> {
                 linker +
                 '}';
     }
+
+
+//    public T getLast() {
+//        return last.getValue();
+//    }
+
 }
