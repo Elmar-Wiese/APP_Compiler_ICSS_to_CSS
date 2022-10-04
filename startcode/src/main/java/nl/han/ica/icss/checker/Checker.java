@@ -44,7 +44,7 @@ public class Checker {
         }
         Declaration declaration = ((Declaration) node);
         // TODO herschrijven naar minder dubbele code.
-        if (declaration.property.name == "color" || declaration.property.name == "background-color") {
+        if (declaration.property.name.equals("color")  || declaration.property.name.equals("background-color")) {
             if (declaration.expression instanceof Literal) {
                 Literal literal = (Literal) declaration.expression;
                 if (!(literal instanceof ColorLiteral)) {
@@ -52,7 +52,7 @@ public class Checker {
                 }
             }
         }
-        if (declaration.property.name == "width" || declaration.property.name == "height") {
+        if (declaration.property.name.equals("width") || declaration.property.name.equals("height")) {
             if (declaration.expression instanceof Literal) {
                 Literal literal = (Literal) declaration.expression;
                 if (!(literal instanceof PercentageLiteral || literal instanceof PixelLiteral)) {
