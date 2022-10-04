@@ -77,6 +77,46 @@ public interface ICSSListener extends ParseTreeListener {
 	 */
 	void exitBoolliteral(ICSSParser.BoolliteralContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link ICSSParser#colorliteral}.
+	 * @param ctx the parse tree
+	 */
+	void enterColorliteral(ICSSParser.ColorliteralContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ICSSParser#colorliteral}.
+	 * @param ctx the parse tree
+	 */
+	void exitColorliteral(ICSSParser.ColorliteralContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ICSSParser#pixelliteral}.
+	 * @param ctx the parse tree
+	 */
+	void enterPixelliteral(ICSSParser.PixelliteralContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ICSSParser#pixelliteral}.
+	 * @param ctx the parse tree
+	 */
+	void exitPixelliteral(ICSSParser.PixelliteralContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ICSSParser#percentageliteral}.
+	 * @param ctx the parse tree
+	 */
+	void enterPercentageliteral(ICSSParser.PercentageliteralContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ICSSParser#percentageliteral}.
+	 * @param ctx the parse tree
+	 */
+	void exitPercentageliteral(ICSSParser.PercentageliteralContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ICSSParser#scalarliteral}.
+	 * @param ctx the parse tree
+	 */
+	void enterScalarliteral(ICSSParser.ScalarliteralContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ICSSParser#scalarliteral}.
+	 * @param ctx the parse tree
+	 */
+	void exitScalarliteral(ICSSParser.ScalarliteralContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link ICSSParser#literal}.
 	 * @param ctx the parse tree
 	 */

@@ -75,4 +75,8 @@ expression: literal;
 
 // BoolLiteral of ColorLiteral of PercentageLiteral of PixelLiteral of ScalarLiteral
 boolliteral: TRUE | FALSE;
-literal: boolliteral | COLOR | PIXELSIZE | PERCENTAGE | SCALAR;
+colorliteral: COLOR;
+pixelliteral: PIXELSIZE;
+percentageliteral: PERCENTAGE;
+scalarliteral: SCALAR;
+literal: boolliteral | colorliteral | pixelliteral | percentageliteral | scalarliteral;

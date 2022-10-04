@@ -52,6 +52,30 @@ public interface ICSSVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitBoolliteral(ICSSParser.BoolliteralContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link ICSSParser#colorliteral}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitColorliteral(ICSSParser.ColorliteralContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link ICSSParser#pixelliteral}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitPixelliteral(ICSSParser.PixelliteralContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link ICSSParser#percentageliteral}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitPercentageliteral(ICSSParser.PercentageliteralContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link ICSSParser#scalarliteral}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitScalarliteral(ICSSParser.ScalarliteralContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link ICSSParser#literal}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
