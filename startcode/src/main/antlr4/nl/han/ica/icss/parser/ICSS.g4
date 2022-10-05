@@ -57,8 +57,9 @@ stylesheet: stylerule* EOF;
 //                .addChild(new VariableReference("LinkColor"))
 //                .addChild(new ColorLiteral("#ff0000"))
 //        );
+node: stylerule | declare_variable;
 
-stylerule: identity OPEN_BRACE declaration* CLOSE_BRACE | declare_variable; // This is probably greedy need to fix that someway
+stylerule: identity OPEN_BRACE declaration* CLOSE_BRACE; // This is probably greedy need to fix that someway. It's not greedy
 
 // TODO
 // Checken of LOWER_IDENT werkt voor alleen a of h1 enz.

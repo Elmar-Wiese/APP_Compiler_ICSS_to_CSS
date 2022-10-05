@@ -27,6 +27,18 @@ public class ICSSBaseListener implements ICSSListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterNode(ICSSParser.NodeContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitNode(ICSSParser.NodeContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterStylerule(ICSSParser.StyleruleContext ctx) { }
 	/**
 	 * {@inheritDoc}
