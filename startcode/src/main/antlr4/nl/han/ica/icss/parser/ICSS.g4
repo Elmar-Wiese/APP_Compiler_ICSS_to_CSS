@@ -46,7 +46,7 @@ ASSIGNMENT_OPERATOR: ':=';
 
 //--- PARSER: ---
 //stylesheet.addChild((new Stylerule())
-stylesheet: stylerule* EOF;
+stylesheet: node* EOF;
 //.addChild(new TagSelector("p"))
 //				.addChild((new Declaration("background-color"))
 //                        .addChild(new ColorLiteral("#ffffff")))

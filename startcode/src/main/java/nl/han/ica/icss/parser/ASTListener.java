@@ -113,26 +113,23 @@ public class ASTListener extends ICSSBaseListener{
 //		super.exitExpression(ctx);
 //	}
 
-//	@Override
-//	public void enterLiteral(ICSSParser.LiteralContext ctx) {
-//		Literal newLit = null;
-//		if(ctx.TRUE() != null || ctx.FALSE() != null) {
-//			newLit = new BoolLiteral(ctx.getText());
-//		}
-//		if(ctx.COLOR() != null) {
-//			newLit = new ColorLiteral(ctx.getText());
-//		}
-//		if(ctx.PERCENTAGE() != null) {
-//			newLit = new PercentageLiteral(ctx.getText());
-//		}
-//		if(ctx.PIXELSIZE() != null) {
-//			newLit = new PixelLiteral(ctx.getText());
-//		}
-//		if(ctx.SCALAR() != null) {
-//			newLit = new ScalarLiteral(ctx.getText());
-//		}
-//		currentContainer.peek().addChild(newLit);
-//	}
+	@Override
+	public void enterDeclare_variable(ICSSParser.Declare_variableContext ctx) {
+		VariableAssignment newVariable = new VariableAssignment();
+		currentContainer.peek().addChild(newVariable);
+		currentContainer.push(newVariable);
+	}
+
+	@Override
+	public void exitDeclare_variable(ICSSParser.Declare_variableContext ctx) {
+		currentContainer.pop();
+	}
+
+	@Override
+	public void enterVariable(ICSSParser.VariableContext ctx) {
+		currentContainer.peek().addChild(new VariableReference(ctx.getText()));
+	}
+
 
 //	private <T> T ctxNullCheckToWhatever (List<Map<Predicate<? super T>, T>> predicates) {
 //

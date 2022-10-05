@@ -104,11 +104,11 @@ public class ICSSParser extends Parser {
 
 	public static class StylesheetContext extends ParserRuleContext {
 		public TerminalNode EOF() { return getToken(ICSSParser.EOF, 0); }
-		public List<StyleruleContext> stylerule() {
-			return getRuleContexts(StyleruleContext.class);
+		public List<NodeContext> node() {
+			return getRuleContexts(NodeContext.class);
 		}
-		public StyleruleContext stylerule(int i) {
-			return getRuleContext(StyleruleContext.class,i);
+		public NodeContext node(int i) {
+			return getRuleContext(NodeContext.class,i);
 		}
 		public StylesheetContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -139,11 +139,11 @@ public class ICSSParser extends Parser {
 			setState(33);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << ID_IDENT) | (1L << CLASS_IDENT) | (1L << LOWER_IDENT))) != 0)) {
+			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << ID_IDENT) | (1L << CLASS_IDENT) | (1L << LOWER_IDENT) | (1L << CAPITAL_IDENT))) != 0)) {
 				{
 				{
 				setState(30);
-				stylerule();
+				node();
 				}
 				}
 				setState(35);
@@ -958,7 +958,7 @@ public class ICSSParser extends Parser {
 		"B\u0001\u0000\u0000\u0000\u0010F\u0001\u0000\u0000\u0000\u0012H\u0001"+
 		"\u0000\u0000\u0000\u0014J\u0001\u0000\u0000\u0000\u0016L\u0001\u0000\u0000"+
 		"\u0000\u0018N\u0001\u0000\u0000\u0000\u001aP\u0001\u0000\u0000\u0000\u001c"+
-		"W\u0001\u0000\u0000\u0000\u001e \u0003\u0004\u0002\u0000\u001f\u001e\u0001"+
+		"W\u0001\u0000\u0000\u0000\u001e \u0003\u0002\u0001\u0000\u001f\u001e\u0001"+
 		"\u0000\u0000\u0000 #\u0001\u0000\u0000\u0000!\u001f\u0001\u0000\u0000"+
 		"\u0000!\"\u0001\u0000\u0000\u0000\"$\u0001\u0000\u0000\u0000#!\u0001\u0000"+
 		"\u0000\u0000$%\u0005\u0000\u0000\u0001%\u0001\u0001\u0000\u0000\u0000"+
