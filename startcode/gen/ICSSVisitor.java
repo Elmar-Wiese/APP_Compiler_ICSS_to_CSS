@@ -28,6 +28,18 @@ public interface ICSSVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitStylerule(ICSSParser.StyleruleContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link ICSSParser#body}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitBody(ICSSParser.BodyContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link ICSSParser#declaration}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDeclaration(ICSSParser.DeclarationContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link ICSSParser#identity}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -45,12 +57,6 @@ public interface ICSSVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitVariable(ICSSParser.VariableContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link ICSSParser#declaration}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitDeclaration(ICSSParser.DeclarationContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link ICSSParser#propertyname}.
 	 * @param ctx the parse tree
@@ -111,4 +117,10 @@ public interface ICSSVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitOperation(ICSSParser.OperationContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link ICSSParser#if_statement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitIf_statement(ICSSParser.If_statementContext ctx);
 }

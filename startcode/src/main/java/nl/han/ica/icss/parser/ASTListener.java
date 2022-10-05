@@ -5,6 +5,9 @@ import nl.han.ica.datastructures.IHANStack;
 import nl.han.ica.datastructures.StackImpl;
 import nl.han.ica.icss.ast.*;
 import nl.han.ica.icss.ast.literals.*;
+import nl.han.ica.icss.ast.operations.AddOperation;
+import nl.han.ica.icss.ast.operations.MultiplyOperation;
+import nl.han.ica.icss.ast.operations.SubtractOperation;
 import nl.han.ica.icss.ast.selectors.ClassSelector;
 import nl.han.ica.icss.ast.selectors.IdSelector;
 import nl.han.ica.icss.ast.selectors.TagSelector;
@@ -86,32 +89,8 @@ public class ASTListener extends ICSSBaseListener{
 	}
 
 	// propertyname: 'color' | 'background-color' | 'width' | 'height';
-//	@Override
-//	public void enterPropertyname(ICSSParser.PropertynameContext ctx) {
-//		super.enterPropertyname(ctx);
-//	}
-//
-//	@Override
-//	public void exitPropertyname(ICSSParser.PropertynameContext ctx) {
-//		super.exitPropertyname(ctx);
-//	}
 
 
-//	@Override
-//	public void enterExpression(ICSSParser.ExpressionContext ctx) {
-//		super.enterExpression(ctx);
-//		Expression newEx = null;
-//		if(ctx.literal() != null) {
-//			if(ctx.literal().TRUE() != null) {
-//
-//			}
-//		}
-//	}
-
-//	@Override
-//	public void exitExpression(ICSSParser.ExpressionContext ctx) {
-//		super.exitExpression(ctx);
-//	}
 
 	@Override
 	public void enterDeclare_variable(ICSSParser.Declare_variableContext ctx) {
@@ -160,6 +139,37 @@ public class ASTListener extends ICSSBaseListener{
 	@Override
 	public void enterScalarliteral(ICSSParser.ScalarliteralContext ctx) {
 		currentContainer.peek().addChild(new ScalarLiteral(ctx.getText()));
+	}
+
+	@Override
+	public void enterOperation(ICSSParser.OperationContext ctx) {
+		if(ctx.expression_non_recur() != null) {
+			return;
+		}
+		Operation operation; // = null;
+		switch (ctx.getChild(1).getText()) {
+			case "*":
+				operation = new MultiplyOperation();
+				break;
+			case "+":
+				operation = new AddOperation();
+				break;
+			default:
+				operation = new SubtractOperation();
+		}
+		//System.out.println(ctx.getText());
+		//System.out.println(ctx.getChild(1)); // child 1 is de operator
+
+		currentContainer.peek().addChild(operation);
+		currentContainer.push(operation);
+	}
+
+	@Override
+	public void exitOperation(ICSSParser.OperationContext ctx) {
+		if(ctx.expression_non_recur() != null) {
+			return;
+		}
+		currentContainer.pop();
 	}
 
 

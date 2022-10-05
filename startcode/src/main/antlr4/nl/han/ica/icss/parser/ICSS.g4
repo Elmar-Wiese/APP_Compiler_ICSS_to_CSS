@@ -59,8 +59,22 @@ stylesheet: node* EOF;
 //        );
 node: stylerule | declare_variable;
 
-stylerule: identity OPEN_BRACE declaration* CLOSE_BRACE; // This is probably greedy need to fix that someway. It's not greedy
+stylerule: identity OPEN_BRACE body CLOSE_BRACE; // This is probably greedy need to fix that someway. It's kinda greedy.
+// it finds the first close brace after the open brace.
+//  a {
+//  	color: LinkColor;
+//	    if[UseLinkColor]{ error
+//	        width: ParWidth;
+//	    } // CLOSE_BRACE it chooses
+//  }
 
+//OPEN_BRACE (declaration | if_statement)* CLOSE_BRACE
+body: (declare_variable | declaration | if_statement)+; // VARIABLE DECLAREN of DECLERATIONS of IF STATEMENT ZIJN
+// new Declaration("background-color")  .addChild(new ColorLiteral("#ffffff"))
+// Declaration(String property)
+// 	public PropertyName property;
+//	public Expression expression;
+declaration: propertyname COLON expression SEMICOLON;
 // TODO
 // Checken of LOWER_IDENT werkt voor alleen a of h1 enz.
 identity: ID_IDENT | CLASS_IDENT | LOWER_IDENT; // Lower ident mag alleen bijv a of h1 zijn.
@@ -70,18 +84,14 @@ identity: ID_IDENT | CLASS_IDENT | LOWER_IDENT; // Lower ident mag alleen bijv a
 declare_variable: variable ASSIGNMENT_OPERATOR expression SEMICOLON;
 
 variable: CAPITAL_IDENT;
-// new Declaration("background-color")  .addChild(new ColorLiteral("#ffffff"))
-// Declaration(String property)
-// 	public PropertyName property;
-//	public Expression expression;
-declaration: propertyname COLON expression SEMICOLON;
+
 
 // width of height
 // Alleen de properties color, background-color, width en height zijn toegestaan.
 propertyname: 'color' | 'background-color' | 'width' | 'height';
 
 // Literal of Operation of  VariableReference
-expression: operation | expression_non_recur;
+expression: expression_non_recur | operation;
 expression_non_recur: literal | variable;
 
 // BoolLiteral of ColorLiteral of PercentageLiteral of PixelLiteral of ScalarLiteral
@@ -99,8 +109,12 @@ literal: boolliteral | colorliteral | pixelliteral | percentageliteral | scalarl
 //multiply_operation: operation MUL operation;
 //substract_operation: operation MIN operation;
 operation:
-//      | operation
+//      | operation DIVIDE operation
         | operation MUL operation
         | operation PLUS operation
         | operation MIN operation
         | expression_non_recur;
+
+if_statement:   IF BOX_BRACKET_OPEN variable BOX_BRACKET_CLOSE
+                OPEN_BRACE body CLOSE_BRACE
+                (ELSE OPEN_BRACE body CLOSE_BRACE) ?;

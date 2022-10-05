@@ -37,6 +37,26 @@ public interface ICSSListener extends ParseTreeListener {
 	 */
 	void exitStylerule(ICSSParser.StyleruleContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link ICSSParser#body}.
+	 * @param ctx the parse tree
+	 */
+	void enterBody(ICSSParser.BodyContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ICSSParser#body}.
+	 * @param ctx the parse tree
+	 */
+	void exitBody(ICSSParser.BodyContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ICSSParser#declaration}.
+	 * @param ctx the parse tree
+	 */
+	void enterDeclaration(ICSSParser.DeclarationContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ICSSParser#declaration}.
+	 * @param ctx the parse tree
+	 */
+	void exitDeclaration(ICSSParser.DeclarationContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link ICSSParser#identity}.
 	 * @param ctx the parse tree
 	 */
@@ -66,16 +86,6 @@ public interface ICSSListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitVariable(ICSSParser.VariableContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link ICSSParser#declaration}.
-	 * @param ctx the parse tree
-	 */
-	void enterDeclaration(ICSSParser.DeclarationContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link ICSSParser#declaration}.
-	 * @param ctx the parse tree
-	 */
-	void exitDeclaration(ICSSParser.DeclarationContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link ICSSParser#propertyname}.
 	 * @param ctx the parse tree
@@ -176,4 +186,14 @@ public interface ICSSListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitOperation(ICSSParser.OperationContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ICSSParser#if_statement}.
+	 * @param ctx the parse tree
+	 */
+	void enterIf_statement(ICSSParser.If_statementContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ICSSParser#if_statement}.
+	 * @param ctx the parse tree
+	 */
+	void exitIf_statement(ICSSParser.If_statementContext ctx);
 }
