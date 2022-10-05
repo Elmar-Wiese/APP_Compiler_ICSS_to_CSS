@@ -115,6 +115,9 @@ operation:
         | operation MIN operation
         | expression_non_recur;
 
-if_statement:   IF BOX_BRACKET_OPEN variable BOX_BRACKET_CLOSE
+if_statement:   IF BOX_BRACKET_OPEN boolean_expression BOX_BRACKET_CLOSE
                 OPEN_BRACE body CLOSE_BRACE
                 (ELSE OPEN_BRACE body CLOSE_BRACE) ?;
+
+//3<5, Value==5, !AdjustWidth
+ boolean_expression: variable | boolliteral;

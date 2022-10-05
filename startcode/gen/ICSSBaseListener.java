@@ -238,6 +238,18 @@ public class ICSSBaseListener implements ICSSListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitIf_statement(ICSSParser.If_statementContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterBoolean_expression(ICSSParser.Boolean_expressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitBoolean_expression(ICSSParser.Boolean_expressionContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
