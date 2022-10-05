@@ -115,9 +115,16 @@ operation:
         | operation MIN operation
         | expression_non_recur;
 
+//							.addChild((new IfClause())
+//									.addChild(new VariableReference("UseLinkColor"))
+//									.addChild(new Declaration("background-color").addChild(new VariableReference("LinkColor")))
+//									.addChild((new ElseClause())
+//											.addChild(new Declaration("background-color").addChild(new ColorLiteral("#000000")))
 if_statement:   IF BOX_BRACKET_OPEN boolean_expression BOX_BRACKET_CLOSE
                 OPEN_BRACE body CLOSE_BRACE
-                (ELSE OPEN_BRACE body CLOSE_BRACE) ?;
+                else_statement ?;
+
+else_statement: ELSE OPEN_BRACE body CLOSE_BRACE;
 
 //3<5, Value==5, !AdjustWidth
  boolean_expression: variable | boolliteral;

@@ -124,6 +124,12 @@ public interface ICSSVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitIf_statement(ICSSParser.If_statementContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link ICSSParser#else_statement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitElse_statement(ICSSParser.Else_statementContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link ICSSParser#boolean_expression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
