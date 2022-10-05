@@ -113,27 +113,27 @@ public class ASTListener extends ICSSBaseListener {
 //		super.exitExpression(ctx);
 //	}
 
-	// TODO I have added seperate boolliteral. Move the literal out of this class.
-	@Override
-	public void enterLiteral(ICSSParser.LiteralContext ctx) {
-		Literal newLit = null;
-		if(ctx.TRUE() != null || ctx.FALSE() != null) {
-			newLit = new BoolLiteral(ctx.getText());
-		}
-		if(ctx.COLOR() != null) {
-			newLit = new ColorLiteral(ctx.getText());
-		}
-		if(ctx.PERCENTAGE() != null) {
-			newLit = new PercentageLiteral(ctx.getText());
-		}
-		if(ctx.PIXELSIZE() != null) {
-			newLit = new PixelLiteral(ctx.getText());
-		}
-		if(ctx.SCALAR() != null) {
-			newLit = new ScalarLiteral(ctx.getText());
-		}
-		currentContainer.peek().addChild(newLit);
-	}
+//	// TODO I have added seperate boolliteral. Move the literal out of this class.
+//	@Override
+//	public void enterLiteral(ICSSParser.LiteralContext ctx) {
+//		Literal newLit = null;
+//		if(ctx.TRUE() != null || ctx.FALSE() != null) {
+//			newLit = new BoolLiteral(ctx.getText());
+//		}
+//		if(ctx.COLOR() != null) {
+//			newLit = new ColorLiteral(ctx.getText());
+//		}
+//		if(ctx.PERCENTAGE() != null) {
+//			newLit = new PercentageLiteral(ctx.getText());
+//		}
+//		if(ctx.PIXELSIZE() != null) {
+//			newLit = new PixelLiteral(ctx.getText());
+//		}
+//		if(ctx.SCALAR() != null) {
+//			newLit = new ScalarLiteral(ctx.getText());
+//		}
+//		currentContainer.peek().addChild(newLit);
+//	}
 
 //	private <T> T ctxNullCheckToWhatever (List<Map<Predicate<? super T>, T>> predicates) {
 //
@@ -142,14 +142,10 @@ public class ASTListener extends ICSSBaseListener {
 //	}
 
 	@Override
-	public void exitLiteral(ICSSParser.LiteralContext ctx) {
-		super.exitLiteral(ctx);
+	public void enterBoolliteral(ICSSParser.BoolliteralContext ctx) {
+		
 	}
 
-	@Override
-	public void exitEveryRule(ParserRuleContext ctx) {
-		super.exitEveryRule(ctx);
-	}
 
 
 }
