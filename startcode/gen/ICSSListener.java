@@ -97,6 +97,16 @@ public interface ICSSListener extends ParseTreeListener {
 	 */
 	void exitExpression(ICSSParser.ExpressionContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link ICSSParser#expression_non_recur}.
+	 * @param ctx the parse tree
+	 */
+	void enterExpression_non_recur(ICSSParser.Expression_non_recurContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ICSSParser#expression_non_recur}.
+	 * @param ctx the parse tree
+	 */
+	void exitExpression_non_recur(ICSSParser.Expression_non_recurContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link ICSSParser#boolliteral}.
 	 * @param ctx the parse tree
 	 */
@@ -156,4 +166,14 @@ public interface ICSSListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitLiteral(ICSSParser.LiteralContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ICSSParser#operation}.
+	 * @param ctx the parse tree
+	 */
+	void enterOperation(ICSSParser.OperationContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ICSSParser#operation}.
+	 * @param ctx the parse tree
+	 */
+	void exitOperation(ICSSParser.OperationContext ctx);
 }

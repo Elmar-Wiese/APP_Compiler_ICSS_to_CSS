@@ -66,7 +66,8 @@ stylerule: identity OPEN_BRACE declaration* CLOSE_BRACE; // This is probably gre
 identity: ID_IDENT | CLASS_IDENT | LOWER_IDENT; // Lower ident mag alleen bijv a of h1 zijn.
 
 //LinkColor := #ff0000;
-declare_variable: variable ASSIGNMENT_OPERATOR literal SEMICOLON;
+//Textcolor := Bgcolor;
+declare_variable: variable ASSIGNMENT_OPERATOR expression SEMICOLON;
 
 variable: CAPITAL_IDENT;
 // new Declaration("background-color")  .addChild(new ColorLiteral("#ffffff"))
@@ -80,7 +81,8 @@ declaration: propertyname COLON expression SEMICOLON;
 propertyname: 'color' | 'background-color' | 'width' | 'height';
 
 // Literal of Operation of  VariableReference
-expression: literal | variable;
+expression: operation | expression_non_recur;
+expression_non_recur: literal | variable;
 
 // BoolLiteral of ColorLiteral of PercentageLiteral of PixelLiteral of ScalarLiteral
 boolliteral: TRUE | FALSE;
@@ -90,3 +92,15 @@ percentageliteral: PERCENTAGE;
 scalarliteral: SCALAR;
 literal: boolliteral | colorliteral | pixelliteral | percentageliteral | scalarliteral;
 
+
+// Operation
+//operation: add_operation | multiply_operation | substract_operation;
+//add_operation: operation PLUS operation;
+//multiply_operation: operation MUL operation;
+//substract_operation: operation MIN operation;
+operation:
+//      | operation
+        | operation MUL operation
+        | operation PLUS operation
+        | operation MIN operation
+        | expression_non_recur;

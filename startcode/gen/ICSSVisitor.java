@@ -64,6 +64,12 @@ public interface ICSSVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitExpression(ICSSParser.ExpressionContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link ICSSParser#expression_non_recur}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitExpression_non_recur(ICSSParser.Expression_non_recurContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link ICSSParser#boolliteral}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -99,4 +105,10 @@ public interface ICSSVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitLiteral(ICSSParser.LiteralContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link ICSSParser#operation}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitOperation(ICSSParser.OperationContext ctx);
 }
