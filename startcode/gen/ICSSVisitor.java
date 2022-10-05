@@ -28,6 +28,18 @@ public interface ICSSVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitIdentity(ICSSParser.IdentityContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link ICSSParser#declare_variable}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDeclare_variable(ICSSParser.Declare_variableContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link ICSSParser#variable}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitVariable(ICSSParser.VariableContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link ICSSParser#declaration}.
 	 * @param ctx the parse tree
 	 * @return the visitor result

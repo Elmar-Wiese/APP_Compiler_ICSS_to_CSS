@@ -53,13 +53,21 @@ stylesheet: stylerule* EOF;
 //				.addChild((new Declaration("width"))
 //						.addChild(new PixelLiteral("500px")))
 
-stylerule: identity OPEN_BRACE declaration* CLOSE_BRACE; // This is probably greedy need to fix that someway
+//		stylesheet.addChild((new VariableAssignment())
+//                .addChild(new VariableReference("LinkColor"))
+//                .addChild(new ColorLiteral("#ff0000"))
+//        );
+
+stylerule: identity OPEN_BRACE declaration* CLOSE_BRACE | declare_variable; // This is probably greedy need to fix that someway
 
 // TODO
 // Checken of LOWER_IDENT werkt voor alleen a of h1 enz.
 identity: ID_IDENT | CLASS_IDENT | LOWER_IDENT; // Lower ident mag alleen bijv a of h1 zijn.
 
+//LinkColor := #ff0000;
+declare_variable: variable ASSIGNMENT_OPERATOR literal SEMICOLON;
 
+variable: CAPITAL_IDENT;
 // new Declaration("background-color")  .addChild(new ColorLiteral("#ffffff"))
 // Declaration(String property)
 // 	public PropertyName property;
@@ -71,7 +79,7 @@ declaration: propertyname COLON expression SEMICOLON;
 propertyname: 'color' | 'background-color' | 'width' | 'height';
 
 // Literal of Operation of  VariableReference
-expression: literal;
+expression: literal | variable;
 
 // BoolLiteral of ColorLiteral of PercentageLiteral of PixelLiteral of ScalarLiteral
 boolliteral: TRUE | FALSE;
@@ -80,3 +88,4 @@ pixelliteral: PIXELSIZE;
 percentageliteral: PERCENTAGE;
 scalarliteral: SCALAR;
 literal: boolliteral | colorliteral | pixelliteral | percentageliteral | scalarliteral;
+

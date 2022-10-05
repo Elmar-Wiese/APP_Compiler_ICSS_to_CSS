@@ -18,7 +18,7 @@ import java.util.function.Predicate;
 /**
  * This class extracts the ICSS Abstract Syntax Tree from the Antlr Parse tree.
  */
-public class ASTListener extends ICSSBaseListener {
+public class ASTListener extends ICSSBaseListener{
 	
 	//Accumulator attributes:
 	private AST ast;
@@ -113,7 +113,6 @@ public class ASTListener extends ICSSBaseListener {
 //		super.exitExpression(ctx);
 //	}
 
-//	// TODO I have added seperate boolliteral. Move the literal out of this class.
 //	@Override
 //	public void enterLiteral(ICSSParser.LiteralContext ctx) {
 //		Literal newLit = null;
@@ -143,9 +142,28 @@ public class ASTListener extends ICSSBaseListener {
 
 	@Override
 	public void enterBoolliteral(ICSSParser.BoolliteralContext ctx) {
-		
+		currentContainer.peek().addChild(new BoolLiteral(ctx.getText()));
 	}
 
+	@Override
+	public void enterColorliteral(ICSSParser.ColorliteralContext ctx) {
+		currentContainer.peek().addChild(new ColorLiteral(ctx.getText()));
+	}
+
+	@Override
+	public void enterPixelliteral(ICSSParser.PixelliteralContext ctx) {
+		currentContainer.peek().addChild(new PixelLiteral(ctx.getText()));
+	}
+
+	@Override
+	public void enterPercentageliteral(ICSSParser.PercentageliteralContext ctx) {
+		currentContainer.peek().addChild(new PercentageLiteral(ctx.getText()));
+	}
+
+	@Override
+	public void enterScalarliteral(ICSSParser.ScalarliteralContext ctx) {
+		currentContainer.peek().addChild(new ScalarLiteral(ctx.getText()));
+	}
 
 
 }

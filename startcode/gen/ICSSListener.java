@@ -37,6 +37,26 @@ public interface ICSSListener extends ParseTreeListener {
 	 */
 	void exitIdentity(ICSSParser.IdentityContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link ICSSParser#declare_variable}.
+	 * @param ctx the parse tree
+	 */
+	void enterDeclare_variable(ICSSParser.Declare_variableContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ICSSParser#declare_variable}.
+	 * @param ctx the parse tree
+	 */
+	void exitDeclare_variable(ICSSParser.Declare_variableContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ICSSParser#variable}.
+	 * @param ctx the parse tree
+	 */
+	void enterVariable(ICSSParser.VariableContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ICSSParser#variable}.
+	 * @param ctx the parse tree
+	 */
+	void exitVariable(ICSSParser.VariableContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link ICSSParser#declaration}.
 	 * @param ctx the parse tree
 	 */
