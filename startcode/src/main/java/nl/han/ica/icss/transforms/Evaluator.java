@@ -5,6 +5,8 @@ import nl.han.ica.datastructures.StackImpl;
 import nl.han.ica.datastructures.SymbolTableImpl;
 import nl.han.ica.icss.ast.*;
 import nl.han.ica.icss.ast.literals.NumberLiteral;
+import nl.han.ica.icss.ast.literals.PercentageLiteral;
+import nl.han.ica.icss.ast.literals.PixelLiteral;
 import nl.han.ica.icss.ast.operations.MultiplyOperation;
 
 public class Evaluator implements Transform {
@@ -36,6 +38,8 @@ public class Evaluator implements Transform {
     }
 
     private void evaluateNode(ASTNode childNode, ASTNode parent) {
+        evaluateVariableReference(childNode, parent);
+        evaluateOperations(childNode, parent);
 
     }
 
@@ -48,6 +52,20 @@ public class Evaluator implements Transform {
     private void constructsymboltable(ASTNode childNode) {
         if (childNode instanceof Stylerule) {
             symbolTable.newScope();
+        } else
+        if(childNode instanceof VariableAssignment) {
+            VariableAssignment var = (VariableAssignment) childNode;
+            //symbolTable.assignSymbol(var.name.name, var.expression);
+            if (var.expression instanceof Operation) {
+                //LRcurrentCalculation(var.expression);
+                //symbolTable.assignSymbol(var.name.name, LRcurrentCalculation(var.expression));
+                evaluateOperations(var.expression, childNode);
+                symbolTable.assignSymbol(var.name.name, (Literal) var.expression);
+            } else if (var.expression instanceof VariableReference) {
+                symbolTable.assignSymbol(var.name.name, symbolTable.getValue(var.name.name));
+            } else { // Literal
+                symbolTable.assignSymbol(var.name.name, (Literal) var.expression);
+            }
         }
     }
 
@@ -57,10 +75,12 @@ public class Evaluator implements Transform {
     private void evaluateOperations(ASTNode node, ASTNode parent) {
         if(node instanceof Operation && !(parent instanceof Operation)) {
             calcStack = new StackImpl<>();
+
+            replaceNode(parent, node, LRcurrentCalculation(((Operation) node)));
         }
     }
 
-    private void LRcurrentCalculation(Expression expression) {
+    private NumberLiteral LRcurrentCalculation(Expression expression) {
         if (expression instanceof Operation) {
             LRcurrentCalculation(((Operation)expression).lhs);
 
@@ -74,29 +94,26 @@ public class Evaluator implements Transform {
         if (expression instanceof VariableReference) {
             calcStack.push((NumberLiteral) symbolTable.getValue(((VariableReference) expression).name));
         }
+
+        return calcStack.peek();
     }
 
     private void doOperation(Operation op) {
-        if (op instanceof MultiplyOperation) {
-            NumberLiteral val1 = calcStack.pop();
-            NumberLiteral val2 = calcStack.pop();
+        NumberLiteral val1 = calcStack.pop();
+        NumberLiteral val2 = calcStack.pop();
+        calcStack.push(op.operation(val1, val2));
+    }
 
+    // Single child
+    private void replaceNode(ASTNode parent, ASTNode oldNode ,ASTNode newNode) {
+        parent.removeChild(oldNode);
+        parent.addChild(newNode);
+    }
 
-
-            calcStack.push(wrapCalculation(val1.getNumber() * val2.getNumber()));
+    private void evaluateVariableReference(ASTNode childNode, ASTNode parent) {
+        if (childNode instanceof VariableReference && parent instanceof Declaration) {
+            VariableReference var = (VariableReference) childNode;
+            replaceNode(parent, childNode, symbolTable.getValue(var.name));
         }
-
     }
-
-    private <type> NumberLiteral wrapCalculation(int integer) {
-
-        return null;
-    }
-
-//    private int unwrapLiteral(Literal l) {
-//        if (l instanceof ) {
-//
-//        }
-//    }
-
 }

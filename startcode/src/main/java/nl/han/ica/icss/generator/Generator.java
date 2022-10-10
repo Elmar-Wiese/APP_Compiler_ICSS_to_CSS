@@ -8,8 +8,11 @@ import java.util.Iterator;
 
 public class Generator {
 
+
+
 	public String generate(AST ast) {
 		StringBuilder builder = new StringBuilder();
+		int depth = 0;
 
 		String genStr = "";
 
@@ -22,6 +25,10 @@ public class Generator {
 
         return "";
 
+
+	}
+
+	private void walkthroughTree(StringBuilder sb, ASTNode node) {
 
 	}
 

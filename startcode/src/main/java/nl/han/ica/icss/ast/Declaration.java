@@ -43,6 +43,20 @@ public class Declaration extends ASTNode {
 	}
 
 	@Override
+	public ASTNode removeChild(ASTNode child) {
+		ASTNode returnValue = null;
+		if (child.equals(property)) {
+			returnValue = property;
+			property = null;
+		} else if (child.equals(expression)) {
+			returnValue = expression;
+			expression = null;
+		}
+
+		return returnValue;
+	}
+
+	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;
 		if (o == null || getClass() != o.getClass()) return false;
