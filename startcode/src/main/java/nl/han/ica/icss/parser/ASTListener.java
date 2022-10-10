@@ -172,5 +172,38 @@ public class ASTListener extends ICSSBaseListener{
 		currentContainer.pop();
 	}
 
+	@Override
+	public void enterIf_statement(ICSSParser.If_statementContext ctx) {
+		IfClause newIf = new IfClause();
+		currentContainer.peek().addChild(newIf);
+		currentContainer.push(newIf);
+	}
+
+	@Override
+	public void exitIf_statement(ICSSParser.If_statementContext ctx) {
+		currentContainer.pop();
+	}
+
+	@Override
+	public void enterElse_statement(ICSSParser.Else_statementContext ctx) {
+//		ElseClause newElse = new ElseClause();
+//		currentContainer.peek().addChild(newElse);
+//		currentContainer.push(newElse);
+		push(new ElseClause());
+	}
+
+	@Override
+	public void exitElse_statement(ICSSParser.Else_statementContext ctx) {
+		currentContainer.pop();
+	}
+
+	private void push(ASTNode node) {
+		currentContainer.peek().addChild(node);
+		currentContainer.push(node);
+	}
+
+	private void add(ASTNode node) {
+		currentContainer.peek().addChild(node);
+	}
 
 }

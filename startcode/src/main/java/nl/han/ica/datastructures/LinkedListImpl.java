@@ -5,7 +5,7 @@ public class LinkedListImpl<T> implements IHANLinkedList<T> {
     ListNode<T> first;
     //ListNode<T> last;
 
-    LinkedListImpl () {
+    public LinkedListImpl() {
     }
 
     LinkedListImpl (ListNode<T> first, ListNode<T> last, int length) {
@@ -66,6 +66,7 @@ public class LinkedListImpl<T> implements IHANLinkedList<T> {
                 if (index == 0) {
                     insertNode(current, current.getNext(), value);
                     length++;
+                    return;
                 }
             }
         }
@@ -114,6 +115,7 @@ public class LinkedListImpl<T> implements IHANLinkedList<T> {
                 if (pos == 0) {
                     deleteNode(current, current.getNext());
                     length--;
+                    return;
                 }
             }
         }
@@ -137,13 +139,13 @@ public class LinkedListImpl<T> implements IHANLinkedList<T> {
     @Override
     public T get(int pos) {
         checkOutOfBounds(pos);
-        ListNode<T> returnValue = first;
+        ListNode<T> returnNode = first;
 
         for(int i = 0; i < pos; i++) {
-            returnValue = returnValue.getNext();
+            returnNode = returnNode.getNext();
         }
 
-        return returnValue.getValue();
+        return returnNode.getValue();
     }
 
     @Override
@@ -179,10 +181,5 @@ public class LinkedListImpl<T> implements IHANLinkedList<T> {
                 linker +
                 '}';
     }
-
-
-//    public T getLast() {
-//        return last.getValue();
-//    }
 
 }
