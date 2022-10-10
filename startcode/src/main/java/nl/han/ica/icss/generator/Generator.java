@@ -1,38 +1,43 @@
 package nl.han.ica.icss.generator;
 
 
-import nl.han.ica.icss.ast.AST;
-import nl.han.ica.icss.ast.ASTNode;
+import nl.han.ica.icss.ast.*;
 
 import java.util.Iterator;
 
 public class Generator {
 
 
+	public static final String INDENTATION_SCOPE = "  ";
 
 	public String generate(AST ast) {
 		StringBuilder builder = new StringBuilder();
-		int depth = 0;
 
-		String genStr = "";
+		walkthroughTreeStylesheet(builder, ast.root);
 
-		//Iterator<ASTNode> iterator = new Iterator<ASTNode>() {
-
-//		for (:
-//			 ast.root) {
-//
-//		}
-
-        return "";
-
-
+        return builder.toString();
 	}
 
-	private void walkthroughTree(StringBuilder sb, ASTNode node) {
+	private void walkthroughTreeStylesheet(StringBuilder sb, ASTNode node) {
+		for (ASTNode childNode : node.getChildren()) {
+			if (childNode instanceof Stylerule) {
+				Selector sr = ((Stylerule) childNode).selectors.get(0);
+				sb.append(sr.toString()).append(" {\n");
 
+				walkthroughStylerule(sb, childNode);
+
+				sb.append("}\n");
+			}
+		}
 	}
 
+	private void walkthroughStylerule(StringBuilder sb, ASTNode node) {
+		for (ASTNode childNode : node.getChildren()) {
+			if (childNode instanceof Declaration) {
+				Declaration dec = (Declaration) childNode;
+				sb.append(INDENTATION_SCOPE).append(dec.property.name).append(": ").append((dec.expression.toString())).append(";\n");
+			}
+		}
+	}
 
-
-	
 }

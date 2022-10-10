@@ -36,4 +36,9 @@ public class PixelLiteral extends NumberLiteral {
     public int getNumber() {
         return value;
     }
+    @Override
+    public String toString() {
+        return String.valueOf(value) + "px";
+    }
+
 }
