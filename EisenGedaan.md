@@ -41,8 +41,24 @@ footnote voor 3: However, it’s strongly recommended that you avoid this method
 ## Eigen 1
 
 ## Eigen 3
-Start 11:07
+Start 11:07 tot 11:30
 
+Input
+
+    p {
+	//width: 10px;
+	width: 20px;
+    }
+
+    /*p {
+    color: 222222222222px;
+    } */
+
+Output
+
+    p {
+    width: 20px;
+    }
 ## Eigen 4
     Keermetbool := TRUE + FALSE;
 

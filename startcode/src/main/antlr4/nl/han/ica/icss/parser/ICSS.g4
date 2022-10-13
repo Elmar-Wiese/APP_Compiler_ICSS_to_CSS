@@ -41,7 +41,15 @@ MIN: '-';
 MUL: '*';
 ASSIGNMENT_OPERATOR: ':=';
 
+// Usually comments are scanned (and discarded) as part of the tokenization process, but before parsing.
+// A comment works like a token separator even in the absence of whitespace around it.
+//OPEN_BLOCK_COMMENT: '/*';
+//CLOSE_BLOCK_COMMENT: '*/';
 
+LINE_COMMENT: '//' .*? ('\n' | EOF) -> skip; // Nu kan mijn css bestaan uit alleen één comment
+BlOCK_COMMENT: '/*' .*? '*/' -> skip;
+// Ook de block comments hier kunnen meerdere in elkaar niet aan. Ga gewoon door.
+// /*  /* hoi */ */
 
 
 //--- PARSER: ---
@@ -75,9 +83,8 @@ body: (declare_variable | declaration | if_statement)+; // VARIABLE DECLAREN of 
 // 	public PropertyName property;
 //	public Expression expression;
 declaration: propertyname COLON expression SEMICOLON;
-// TODO
-// Checken of LOWER_IDENT werkt voor alleen a of h1 enz.
-identity: ID_IDENT | CLASS_IDENT | LOWER_IDENT; // Lower ident mag alleen bijv a of h1 zijn.
+
+identity: ID_IDENT | CLASS_IDENT | LOWER_IDENT;
 
 //LinkColor := #ff0000;
 //Textcolor := Bgcolor;
