@@ -6,6 +6,9 @@ import nl.han.ica.icss.ast.literals.BoolLiteral;
 import nl.han.ica.icss.ast.literals.ColorLiteral;
 import nl.han.ica.icss.ast.literals.PercentageLiteral;
 import nl.han.ica.icss.ast.literals.PixelLiteral;
+import nl.han.ica.icss.ast.operations.AddOperation;
+import nl.han.ica.icss.ast.operations.MultiplyOperation;
+import nl.han.ica.icss.ast.operations.SubtractOperation;
 import nl.han.ica.icss.ast.types.ExpressionType;
 
 import java.util.Optional;
@@ -45,16 +48,20 @@ public class Checker {
     //IHANLinkedList<String> scope = new LinkedListImpl<>();
 
     private void aftersymboltable(ASTNode childNode) {
-        if(childNode instanceof Stylerule) {
+        if(childNode instanceof Stylerule || childNode instanceof IfClause || childNode instanceof ElseClause) {
             symbolTable.removeScope();
         }
     }
 
     private void constructsymboltable(ASTNode childNode) {
-        if(childNode instanceof Stylerule) {
+        if(childNode instanceof Stylerule || childNode instanceof IfClause) {
             symbolTable.newScope();
         }
 
+        if(childNode instanceof ElseClause) {
+            symbolTable.removeScope();
+            symbolTable.newScope();
+        }
 //        if(childNode instanceof Declaration) {// Later ook if en else
 //            //scope.insert(scope.getSize(), ((Stylerule)childNode).selectors.get(0).toString());
 //            //new Declaration("background-color")  .addChild(new ColorLiteral("#ffffff"))
@@ -129,8 +136,10 @@ public class Checker {
 
     private void checkNode(ASTNode childNode) {
         checkCH01CH06(childNode);
-        checkCH04(childNode);
+        checkCH04(childNode); // Kan CH02 en CH04 samenvoegen.
+        checkCH02(childNode);
         checkCH05(childNode);
+        checkCH03(childNode);
     }
     // 'color' | 'background-color'
     // ColorLiteral
@@ -215,4 +224,37 @@ public class Checker {
         }
     }
 
+    private void checkCH02(ASTNode node) {
+        //resolve_type_of_lit_op_varreference
+        if(!(node instanceof Operation))
+            return;
+
+        Operation op = (Operation) node;
+
+        // plus en min operanden gelijk
+        if (op instanceof AddOperation || op instanceof SubtractOperation) {
+            if (!(resolve_type_of_lit_op_varreference(op.lhs) == resolve_type_of_lit_op_varreference(op.rhs)))
+                op.setError("Add operation values must be off same type");
+        } else if (op instanceof MultiplyOperation) { // 1 scalaire waarde
+            if (!(resolve_type_of_lit_op_varreference(op.lhs) == ExpressionType.SCALAR || resolve_type_of_lit_op_varreference(op.rhs) == ExpressionType.SCALAR))
+                op.setError("One of the values of a multiply operation must be scalar");
+        }
+    }
+    // Geen kleuren operaties
+    private void checkCH03(ASTNode node) {
+        if(!(node instanceof Operation))
+            return;
+
+        Operation op = (Operation) node;
+
+        for (ASTNode ex: op.getChildren()) {
+            if (!(ex instanceof Operation)) {
+                ExpressionType type = resolve_type_of_lit_op_varreference((Expression) ex);
+                if(type == ExpressionType.COLOR)
+                    node.setError("Don't use colours in operations");
+                if(type == ExpressionType.BOOL)
+                    node.setError("Don't use booleans in operations");
+            }
+        }
+    }
 }
