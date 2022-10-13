@@ -143,10 +143,10 @@ public class ASTListener extends ICSSBaseListener{
 
 	@Override
 	public void enterOperation(ICSSParser.OperationContext ctx) {
-		if(ctx.expression_non_recur() != null) {
+		if(ctx.expression_non_recur() != null || isNotStackedOperation(ctx.getChild(1).getText())) {
 			return;
 		}
-		Operation operation; // = null;
+		Operation operation = null;
 		switch (ctx.getChild(1).getText()) {
 			case "*":
 				operation = new MultiplyOperation();
@@ -154,22 +154,35 @@ public class ASTListener extends ICSSBaseListener{
 			case "+":
 				operation = new AddOperation();
 				break;
-			default:
+			case "-":
 				operation = new SubtractOperation();
 		}
 		//System.out.println(ctx.getText());
 		//System.out.println(ctx.getChild(1)); // child 1 is de operator
-
+		//if (operation != null) {
 		currentContainer.peek().addChild(operation);
 		currentContainer.push(operation);
+		//}
 	}
 
 	@Override
 	public void exitOperation(ICSSParser.OperationContext ctx) {
-		if(ctx.expression_non_recur() != null) {
+		if(ctx.expression_non_recur() != null || isNotStackedOperation(ctx.getChild(1).getText())) {
 			return;
 		}
 		currentContainer.pop();
+	}
+
+	private boolean isNotStackedOperation(String child1) {
+		switch (child1) {
+			case "*":
+				return false;
+			case "+":
+				return false;
+			case "-":
+				return false;
+		}
+		return true;
 	}
 
 	@Override

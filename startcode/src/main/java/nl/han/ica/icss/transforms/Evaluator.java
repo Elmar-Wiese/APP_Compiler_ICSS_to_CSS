@@ -104,9 +104,9 @@ public class Evaluator implements Transform {
     }
 
     private void doOperation(Operation op) {
-        NumberLiteral val1 = calcStack.pop();
-        NumberLiteral val2 = calcStack.pop();
-        calcStack.push(op.operation(val1, val2));
+        NumberLiteral right = calcStack.pop();
+        NumberLiteral left = calcStack.pop();
+        calcStack.push(op.operation(left, right));
     }
 
     // Single child

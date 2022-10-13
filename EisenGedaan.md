@@ -18,8 +18,8 @@ Per CH onderdeel kun je 0 of de aangegeven punten krijgen.
 | 2 | --- | Checken van booleaanse expressies. Bij > dat de waardes van hetzelfde type zijn en alleen 20% 20px 22. Hiernaast dat ! en &&  alleen op booleanse waardes (of expressies) kan | |
 | 3 | ✔ | Line comments // en block comments  /*  */ comments zijn zeer belangrijk | 3 |
 | 4 | ✔ | Controleer of er geen booleans worden gebruikt in de operaties (plus, min en keer). | 2 |
-| 5 | --- | ( operaties ) geeft voorang | |
-| 6 | --- | 2^2 machten toevoegen. Machten kunnen alleen SCALAIR zijn | |
+| 5 | ✔ | ( operaties ) geeft voorang | 2 |
+| 6 | --- | 2^2 machten toevoegen. Machten kunnen alleen SCALAIR zijn en volgen regel CH02 | |
 
 footnote voor 3: However, it’s strongly recommended that you avoid this method in your code. The double-slash commenting method is not standardized in CSS (whereas the /* ... */ method is), meaning that it’s not guaranteed to work on all browsers.
 # Test voorbeelden
@@ -75,9 +75,21 @@ Output
     ERROR: Don't use booleans in operations
 
 ## Eigen 5
-11:43 start
+11:43 start tot 12:15
+Input
 
     div {
         width: 50px + 2 * 10px - 2px; // dit is dus 68px
+        height: 50px + 2 * (10px - 2px); // dit is dus 66px
+    }
+
+Output
+
+    div {
+        width: 68px;
+        height: 66px;
     }
 ## Eigen 6
+14:01 start tot
+
+Input

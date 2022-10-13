@@ -39,6 +39,7 @@ COLON: ':';
 PLUS: '+';
 MIN: '-';
 MUL: '*';
+EXPONENT: '^';
 ASSIGNMENT_OPERATOR: ':=';
 PARENTHESES_OPEN: '(';
 PARENTHESES_CLOSE: ')';
@@ -118,10 +119,9 @@ literal: boolliteral | colorliteral | pixelliteral | percentageliteral | scalarl
 //substract_operation: operation MIN operation;
 operation:
         | PARENTHESES_OPEN operation PARENTHESES_CLOSE
-//      | operation DIVIDE operation
+        | operation EXPONENT operation
         | operation MUL operation
-        | operation PLUS operation
-        | operation MIN operation
+        | operation (PLUS|MIN) operation
         | expression_non_recur;
 
 //							.addChild((new IfClause())

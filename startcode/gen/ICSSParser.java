@@ -19,8 +19,9 @@ public class ICSSParser extends Parser {
 		T__0=1, T__1=2, T__2=3, T__3=4, IF=5, ELSE=6, BOX_BRACKET_OPEN=7, BOX_BRACKET_CLOSE=8, 
 		TRUE=9, FALSE=10, PIXELSIZE=11, PERCENTAGE=12, SCALAR=13, COLOR=14, ID_IDENT=15, 
 		CLASS_IDENT=16, LOWER_IDENT=17, CAPITAL_IDENT=18, WS=19, OPEN_BRACE=20, 
-		CLOSE_BRACE=21, SEMICOLON=22, COLON=23, PLUS=24, MIN=25, MUL=26, ASSIGNMENT_OPERATOR=27, 
-		PARENTHESES_OPEN=28, PARENTHESES_CLOSE=29, LINE_COMMENT=30, BlOCK_COMMENT=31;
+		CLOSE_BRACE=21, SEMICOLON=22, COLON=23, PLUS=24, MIN=25, MUL=26, EXPONENT=27, 
+		ASSIGNMENT_OPERATOR=28, PARENTHESES_OPEN=29, PARENTHESES_CLOSE=30, LINE_COMMENT=31, 
+		BlOCK_COMMENT=32;
 	public static final int
 		RULE_stylesheet = 0, RULE_node = 1, RULE_stylerule = 2, RULE_body = 3, 
 		RULE_declaration = 4, RULE_identity = 5, RULE_declare_variable = 6, RULE_variable = 7, 
@@ -44,7 +45,7 @@ public class ICSSParser extends Parser {
 			null, "'color'", "'background-color'", "'width'", "'height'", "'if'", 
 			"'else'", "'['", "']'", "'TRUE'", "'FALSE'", null, null, null, null, 
 			null, null, null, null, null, "'{'", "'}'", "';'", "':'", "'+'", "'-'", 
-			"'*'", "':='", "'('", "')'"
+			"'*'", "'^'", "':='", "'('", "')'"
 		};
 	}
 	private static final String[] _LITERAL_NAMES = makeLiteralNames();
@@ -53,8 +54,8 @@ public class ICSSParser extends Parser {
 			null, null, null, null, null, "IF", "ELSE", "BOX_BRACKET_OPEN", "BOX_BRACKET_CLOSE", 
 			"TRUE", "FALSE", "PIXELSIZE", "PERCENTAGE", "SCALAR", "COLOR", "ID_IDENT", 
 			"CLASS_IDENT", "LOWER_IDENT", "CAPITAL_IDENT", "WS", "OPEN_BRACE", "CLOSE_BRACE", 
-			"SEMICOLON", "COLON", "PLUS", "MIN", "MUL", "ASSIGNMENT_OPERATOR", "PARENTHESES_OPEN", 
-			"PARENTHESES_CLOSE", "LINE_COMMENT", "BlOCK_COMMENT"
+			"SEMICOLON", "COLON", "PLUS", "MIN", "MUL", "EXPONENT", "ASSIGNMENT_OPERATOR", 
+			"PARENTHESES_OPEN", "PARENTHESES_CLOSE", "LINE_COMMENT", "BlOCK_COMMENT"
 		};
 	}
 	private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();
@@ -1092,6 +1093,7 @@ public class ICSSParser extends Parser {
 		public Expression_non_recurContext expression_non_recur() {
 			return getRuleContext(Expression_non_recurContext.class,0);
 		}
+		public TerminalNode EXPONENT() { return getToken(ICSSParser.EXPONENT, 0); }
 		public TerminalNode MUL() { return getToken(ICSSParser.MUL, 0); }
 		public TerminalNode PLUS() { return getToken(ICSSParser.PLUS, 0); }
 		public TerminalNode MIN() { return getToken(ICSSParser.MIN, 0); }
@@ -1125,6 +1127,7 @@ public class ICSSParser extends Parser {
 		OperationContext _prevctx = _localctx;
 		int _startState = 34;
 		enterRecursionRule(_localctx, 34, RULE_operation, _p);
+		int _la;
 		try {
 			int _alt;
 			enterOuterAlt(_localctx, 1);
@@ -1172,7 +1175,7 @@ public class ICSSParser extends Parser {
 						setState(115);
 						if (!(precpred(_ctx, 4))) throw new FailedPredicateException(this, "precpred(_ctx, 4)");
 						setState(116);
-						match(MUL);
+						match(EXPONENT);
 						setState(117);
 						operation(5);
 						}
@@ -1184,7 +1187,7 @@ public class ICSSParser extends Parser {
 						setState(118);
 						if (!(precpred(_ctx, 3))) throw new FailedPredicateException(this, "precpred(_ctx, 3)");
 						setState(119);
-						match(PLUS);
+						match(MUL);
 						setState(120);
 						operation(4);
 						}
@@ -1196,7 +1199,15 @@ public class ICSSParser extends Parser {
 						setState(121);
 						if (!(precpred(_ctx, 2))) throw new FailedPredicateException(this, "precpred(_ctx, 2)");
 						setState(122);
-						match(MIN);
+						_la = _input.LA(1);
+						if ( !(_la==PLUS || _la==MIN) ) {
+						_errHandler.recoverInline(this);
+						}
+						else {
+							if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
+							_errHandler.reportMatch(this);
+							consume();
+						}
 						setState(123);
 						operation(3);
 						}
@@ -1435,20 +1446,20 @@ public class ICSSParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\u0004\u0001\u001f\u0095\u0002\u0000\u0007\u0000\u0002\u0001\u0007\u0001"+
-		"\u0002\u0002\u0007\u0002\u0002\u0003\u0007\u0003\u0002\u0004\u0007\u0004"+
-		"\u0002\u0005\u0007\u0005\u0002\u0006\u0007\u0006\u0002\u0007\u0007\u0007"+
-		"\u0002\b\u0007\b\u0002\t\u0007\t\u0002\n\u0007\n\u0002\u000b\u0007\u000b"+
-		"\u0002\f\u0007\f\u0002\r\u0007\r\u0002\u000e\u0007\u000e\u0002\u000f\u0007"+
-		"\u000f\u0002\u0010\u0007\u0010\u0002\u0011\u0007\u0011\u0002\u0012\u0007"+
-		"\u0012\u0002\u0013\u0007\u0013\u0002\u0014\u0007\u0014\u0001\u0000\u0005"+
-		"\u0000,\b\u0000\n\u0000\f\u0000/\t\u0000\u0001\u0000\u0001\u0000\u0001"+
-		"\u0001\u0001\u0001\u0003\u00015\b\u0001\u0001\u0002\u0001\u0002\u0001"+
-		"\u0002\u0001\u0002\u0001\u0002\u0001\u0003\u0001\u0003\u0001\u0003\u0004"+
-		"\u0003?\b\u0003\u000b\u0003\f\u0003@\u0001\u0004\u0001\u0004\u0001\u0004"+
-		"\u0001\u0004\u0001\u0004\u0001\u0005\u0001\u0005\u0001\u0006\u0001\u0006"+
-		"\u0001\u0006\u0001\u0006\u0001\u0006\u0001\u0007\u0001\u0007\u0001\b\u0001"+
-		"\b\u0001\t\u0001\t\u0003\tU\b\t\u0001\n\u0001\n\u0003\nY\b\n\u0001\u000b"+
+		"\u0004\u0001 \u0095\u0002\u0000\u0007\u0000\u0002\u0001\u0007\u0001\u0002"+
+		"\u0002\u0007\u0002\u0002\u0003\u0007\u0003\u0002\u0004\u0007\u0004\u0002"+
+		"\u0005\u0007\u0005\u0002\u0006\u0007\u0006\u0002\u0007\u0007\u0007\u0002"+
+		"\b\u0007\b\u0002\t\u0007\t\u0002\n\u0007\n\u0002\u000b\u0007\u000b\u0002"+
+		"\f\u0007\f\u0002\r\u0007\r\u0002\u000e\u0007\u000e\u0002\u000f\u0007\u000f"+
+		"\u0002\u0010\u0007\u0010\u0002\u0011\u0007\u0011\u0002\u0012\u0007\u0012"+
+		"\u0002\u0013\u0007\u0013\u0002\u0014\u0007\u0014\u0001\u0000\u0005\u0000"+
+		",\b\u0000\n\u0000\f\u0000/\t\u0000\u0001\u0000\u0001\u0000\u0001\u0001"+
+		"\u0001\u0001\u0003\u00015\b\u0001\u0001\u0002\u0001\u0002\u0001\u0002"+
+		"\u0001\u0002\u0001\u0002\u0001\u0003\u0001\u0003\u0001\u0003\u0004\u0003"+
+		"?\b\u0003\u000b\u0003\f\u0003@\u0001\u0004\u0001\u0004\u0001\u0004\u0001"+
+		"\u0004\u0001\u0004\u0001\u0005\u0001\u0005\u0001\u0006\u0001\u0006\u0001"+
+		"\u0006\u0001\u0006\u0001\u0006\u0001\u0007\u0001\u0007\u0001\b\u0001\b"+
+		"\u0001\t\u0001\t\u0003\tU\b\t\u0001\n\u0001\n\u0003\nY\b\n\u0001\u000b"+
 		"\u0001\u000b\u0001\f\u0001\f\u0001\r\u0001\r\u0001\u000e\u0001\u000e\u0001"+
 		"\u000f\u0001\u000f\u0001\u0010\u0001\u0010\u0001\u0010\u0001\u0010\u0001"+
 		"\u0010\u0003\u0010j\b\u0010\u0001\u0011\u0001\u0011\u0001\u0011\u0001"+
@@ -1460,34 +1471,34 @@ public class ICSSParser extends Parser {
 		"\u0001\u0013\u0001\u0013\u0001\u0013\u0001\u0014\u0001\u0014\u0003\u0014"+
 		"\u0093\b\u0014\u0001\u0014\u0000\u0001\"\u0015\u0000\u0002\u0004\u0006"+
 		"\b\n\f\u000e\u0010\u0012\u0014\u0016\u0018\u001a\u001c\u001e \"$&(\u0000"+
-		"\u0003\u0001\u0000\u000f\u0011\u0001\u0000\u0001\u0004\u0001\u0000\t\n"+
-		"\u0091\u0000-\u0001\u0000\u0000\u0000\u00024\u0001\u0000\u0000\u0000\u0004"+
-		"6\u0001\u0000\u0000\u0000\u0006>\u0001\u0000\u0000\u0000\bB\u0001\u0000"+
-		"\u0000\u0000\nG\u0001\u0000\u0000\u0000\fI\u0001\u0000\u0000\u0000\u000e"+
-		"N\u0001\u0000\u0000\u0000\u0010P\u0001\u0000\u0000\u0000\u0012T\u0001"+
-		"\u0000\u0000\u0000\u0014X\u0001\u0000\u0000\u0000\u0016Z\u0001\u0000\u0000"+
-		"\u0000\u0018\\\u0001\u0000\u0000\u0000\u001a^\u0001\u0000\u0000\u0000"+
-		"\u001c`\u0001\u0000\u0000\u0000\u001eb\u0001\u0000\u0000\u0000 i\u0001"+
-		"\u0000\u0000\u0000\"q\u0001\u0000\u0000\u0000$\u0081\u0001\u0000\u0000"+
-		"\u0000&\u008b\u0001\u0000\u0000\u0000(\u0092\u0001\u0000\u0000\u0000*"+
-		",\u0003\u0002\u0001\u0000+*\u0001\u0000\u0000\u0000,/\u0001\u0000\u0000"+
-		"\u0000-+\u0001\u0000\u0000\u0000-.\u0001\u0000\u0000\u0000.0\u0001\u0000"+
-		"\u0000\u0000/-\u0001\u0000\u0000\u000001\u0005\u0000\u0000\u00011\u0001"+
-		"\u0001\u0000\u0000\u000025\u0003\u0004\u0002\u000035\u0003\f\u0006\u0000"+
-		"42\u0001\u0000\u0000\u000043\u0001\u0000\u0000\u00005\u0003\u0001\u0000"+
-		"\u0000\u000067\u0003\n\u0005\u000078\u0005\u0014\u0000\u000089\u0003\u0006"+
-		"\u0003\u00009:\u0005\u0015\u0000\u0000:\u0005\u0001\u0000\u0000\u0000"+
-		";?\u0003\f\u0006\u0000<?\u0003\b\u0004\u0000=?\u0003$\u0012\u0000>;\u0001"+
-		"\u0000\u0000\u0000><\u0001\u0000\u0000\u0000>=\u0001\u0000\u0000\u0000"+
-		"?@\u0001\u0000\u0000\u0000@>\u0001\u0000\u0000\u0000@A\u0001\u0000\u0000"+
-		"\u0000A\u0007\u0001\u0000\u0000\u0000BC\u0003\u0010\b\u0000CD\u0005\u0017"+
-		"\u0000\u0000DE\u0003\u0012\t\u0000EF\u0005\u0016\u0000\u0000F\t\u0001"+
-		"\u0000\u0000\u0000GH\u0007\u0000\u0000\u0000H\u000b\u0001\u0000\u0000"+
-		"\u0000IJ\u0003\u000e\u0007\u0000JK\u0005\u001b\u0000\u0000KL\u0003\u0012"+
-		"\t\u0000LM\u0005\u0016\u0000\u0000M\r\u0001\u0000\u0000\u0000NO\u0005"+
-		"\u0012\u0000\u0000O\u000f\u0001\u0000\u0000\u0000PQ\u0007\u0001\u0000"+
-		"\u0000Q\u0011\u0001\u0000\u0000\u0000RU\u0003\u0014\n\u0000SU\u0003\""+
-		"\u0011\u0000TR\u0001\u0000\u0000\u0000TS\u0001\u0000\u0000\u0000U\u0013"+
+		"\u0004\u0001\u0000\u000f\u0011\u0001\u0000\u0001\u0004\u0001\u0000\t\n"+
+		"\u0001\u0000\u0018\u0019\u0091\u0000-\u0001\u0000\u0000\u0000\u00024\u0001"+
+		"\u0000\u0000\u0000\u00046\u0001\u0000\u0000\u0000\u0006>\u0001\u0000\u0000"+
+		"\u0000\bB\u0001\u0000\u0000\u0000\nG\u0001\u0000\u0000\u0000\fI\u0001"+
+		"\u0000\u0000\u0000\u000eN\u0001\u0000\u0000\u0000\u0010P\u0001\u0000\u0000"+
+		"\u0000\u0012T\u0001\u0000\u0000\u0000\u0014X\u0001\u0000\u0000\u0000\u0016"+
+		"Z\u0001\u0000\u0000\u0000\u0018\\\u0001\u0000\u0000\u0000\u001a^\u0001"+
+		"\u0000\u0000\u0000\u001c`\u0001\u0000\u0000\u0000\u001eb\u0001\u0000\u0000"+
+		"\u0000 i\u0001\u0000\u0000\u0000\"q\u0001\u0000\u0000\u0000$\u0081\u0001"+
+		"\u0000\u0000\u0000&\u008b\u0001\u0000\u0000\u0000(\u0092\u0001\u0000\u0000"+
+		"\u0000*,\u0003\u0002\u0001\u0000+*\u0001\u0000\u0000\u0000,/\u0001\u0000"+
+		"\u0000\u0000-+\u0001\u0000\u0000\u0000-.\u0001\u0000\u0000\u0000.0\u0001"+
+		"\u0000\u0000\u0000/-\u0001\u0000\u0000\u000001\u0005\u0000\u0000\u0001"+
+		"1\u0001\u0001\u0000\u0000\u000025\u0003\u0004\u0002\u000035\u0003\f\u0006"+
+		"\u000042\u0001\u0000\u0000\u000043\u0001\u0000\u0000\u00005\u0003\u0001"+
+		"\u0000\u0000\u000067\u0003\n\u0005\u000078\u0005\u0014\u0000\u000089\u0003"+
+		"\u0006\u0003\u00009:\u0005\u0015\u0000\u0000:\u0005\u0001\u0000\u0000"+
+		"\u0000;?\u0003\f\u0006\u0000<?\u0003\b\u0004\u0000=?\u0003$\u0012\u0000"+
+		">;\u0001\u0000\u0000\u0000><\u0001\u0000\u0000\u0000>=\u0001\u0000\u0000"+
+		"\u0000?@\u0001\u0000\u0000\u0000@>\u0001\u0000\u0000\u0000@A\u0001\u0000"+
+		"\u0000\u0000A\u0007\u0001\u0000\u0000\u0000BC\u0003\u0010\b\u0000CD\u0005"+
+		"\u0017\u0000\u0000DE\u0003\u0012\t\u0000EF\u0005\u0016\u0000\u0000F\t"+
+		"\u0001\u0000\u0000\u0000GH\u0007\u0000\u0000\u0000H\u000b\u0001\u0000"+
+		"\u0000\u0000IJ\u0003\u000e\u0007\u0000JK\u0005\u001c\u0000\u0000KL\u0003"+
+		"\u0012\t\u0000LM\u0005\u0016\u0000\u0000M\r\u0001\u0000\u0000\u0000NO"+
+		"\u0005\u0012\u0000\u0000O\u000f\u0001\u0000\u0000\u0000PQ\u0007\u0001"+
+		"\u0000\u0000Q\u0011\u0001\u0000\u0000\u0000RU\u0003\u0014\n\u0000SU\u0003"+
+		"\"\u0011\u0000TR\u0001\u0000\u0000\u0000TS\u0001\u0000\u0000\u0000U\u0013"+
 		"\u0001\u0000\u0000\u0000VY\u0003 \u0010\u0000WY\u0003\u000e\u0007\u0000"+
 		"XV\u0001\u0000\u0000\u0000XW\u0001\u0000\u0000\u0000Y\u0015\u0001\u0000"+
 		"\u0000\u0000Z[\u0007\u0002\u0000\u0000[\u0017\u0001\u0000\u0000\u0000"+
@@ -1498,12 +1509,12 @@ public class ICSSParser extends Parser {
 		"\u0000gj\u0003\u001c\u000e\u0000hj\u0003\u001e\u000f\u0000id\u0001\u0000"+
 		"\u0000\u0000ie\u0001\u0000\u0000\u0000if\u0001\u0000\u0000\u0000ig\u0001"+
 		"\u0000\u0000\u0000ih\u0001\u0000\u0000\u0000j!\u0001\u0000\u0000\u0000"+
-		"kr\u0006\u0011\uffff\uffff\u0000lm\u0005\u001c\u0000\u0000mn\u0003\"\u0011"+
-		"\u0000no\u0005\u001d\u0000\u0000or\u0001\u0000\u0000\u0000pr\u0003\u0014"+
+		"kr\u0006\u0011\uffff\uffff\u0000lm\u0005\u001d\u0000\u0000mn\u0003\"\u0011"+
+		"\u0000no\u0005\u001e\u0000\u0000or\u0001\u0000\u0000\u0000pr\u0003\u0014"+
 		"\n\u0000qk\u0001\u0000\u0000\u0000ql\u0001\u0000\u0000\u0000qp\u0001\u0000"+
-		"\u0000\u0000r~\u0001\u0000\u0000\u0000st\n\u0004\u0000\u0000tu\u0005\u001a"+
-		"\u0000\u0000u}\u0003\"\u0011\u0005vw\n\u0003\u0000\u0000wx\u0005\u0018"+
-		"\u0000\u0000x}\u0003\"\u0011\u0004yz\n\u0002\u0000\u0000z{\u0005\u0019"+
+		"\u0000\u0000r~\u0001\u0000\u0000\u0000st\n\u0004\u0000\u0000tu\u0005\u001b"+
+		"\u0000\u0000u}\u0003\"\u0011\u0005vw\n\u0003\u0000\u0000wx\u0005\u001a"+
+		"\u0000\u0000x}\u0003\"\u0011\u0004yz\n\u0002\u0000\u0000z{\u0007\u0003"+
 		"\u0000\u0000{}\u0003\"\u0011\u0003|s\u0001\u0000\u0000\u0000|v\u0001\u0000"+
 		"\u0000\u0000|y\u0001\u0000\u0000\u0000}\u0080\u0001\u0000\u0000\u0000"+
 		"~|\u0001\u0000\u0000\u0000~\u007f\u0001\u0000\u0000\u0000\u007f#\u0001"+
