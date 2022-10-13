@@ -40,7 +40,8 @@ PLUS: '+';
 MIN: '-';
 MUL: '*';
 ASSIGNMENT_OPERATOR: ':=';
-
+PARENTHESES_OPEN: '(';
+PARENTHESES_CLOSE: ')';
 // Usually comments are scanned (and discarded) as part of the tokenization process, but before parsing.
 // A comment works like a token separator even in the absence of whitespace around it.
 //OPEN_BLOCK_COMMENT: '/*';
@@ -116,6 +117,7 @@ literal: boolliteral | colorliteral | pixelliteral | percentageliteral | scalarl
 //multiply_operation: operation MUL operation;
 //substract_operation: operation MIN operation;
 operation:
+        | PARENTHESES_OPEN operation PARENTHESES_CLOSE
 //      | operation DIVIDE operation
         | operation MUL operation
         | operation PLUS operation

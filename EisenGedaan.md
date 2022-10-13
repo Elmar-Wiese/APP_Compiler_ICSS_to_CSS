@@ -16,8 +16,10 @@ Per CH onderdeel kun je 0 of de aangegeven punten krijgen.
 | --- | --- | ---|---|
 | 1 | --- | Implementeren van booleaanse expressies zoals 3<5, Value==5, !AdjustWidth (deze kunnen worden gebruikt in if statement) en && | |
 | 2 | --- | Checken van booleaanse expressies. Bij > dat de waardes van hetzelfde type zijn en alleen 20% 20px 22. Hiernaast dat ! en &&  alleen op booleanse waardes (of expressies) kan | |
-| 3 | --- | Line comments // en block comments  /*  */. Line comments worden omgezet naar block comments. Deze worden aan het einde generate | |
-| 4 | --- | Controleer of er geen booleans worden gebruikt in de operaties (plus, min en keer). | 2
+| 3 | ✔ | Line comments // en block comments  /*  */ comments zijn zeer belangrijk | 3 |
+| 4 | ✔ | Controleer of er geen booleans worden gebruikt in de operaties (plus, min en keer). | 2 |
+| 5 | --- | ( operaties ) geeft voorang | |
+| 6 | --- | 2^2 machten toevoegen. Machten kunnen alleen SCALAIR zijn | |
 
 footnote voor 3: However, it’s strongly recommended that you avoid this method in your code. The double-slash commenting method is not standardized in CSS (whereas the /* ... */ method is), meaning that it’s not guaranteed to work on all browsers.
 # Test voorbeelden
@@ -71,3 +73,11 @@ Output
     ERROR: Don't use booleans in operations
     ERROR: Don't use booleans in operations
     ERROR: Don't use booleans in operations
+
+## Eigen 5
+11:43 start
+
+    div {
+        width: 50px + 2 * 10px - 2px; // dit is dus 68px
+    }
+## Eigen 6
