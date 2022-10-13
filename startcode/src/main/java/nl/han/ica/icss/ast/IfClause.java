@@ -18,7 +18,6 @@ public class IfClause extends ASTNode {
         this.body = body;
     }
     public IfClause(Expression conditionalExpression, ArrayList<ASTNode> body, ElseClause elseClause) {
-
         this.conditionalExpression = conditionalExpression;
         this.body = body;
         this.elseClause = elseClause;
@@ -50,6 +49,14 @@ public class IfClause extends ASTNode {
 
         return this;
     }
+
+    @Override
+    public ASTNode removeChild(ASTNode child) {
+        body.remove(child);
+
+        return super.removeChild(child);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

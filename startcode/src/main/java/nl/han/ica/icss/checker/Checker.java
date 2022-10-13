@@ -8,11 +8,14 @@ import nl.han.ica.icss.ast.literals.PercentageLiteral;
 import nl.han.ica.icss.ast.literals.PixelLiteral;
 import nl.han.ica.icss.ast.types.ExpressionType;
 
+import java.util.Optional;
+
 
 public class Checker {
 
     //private IHANLinkedList<HashMap<String, ExpressionType>> variableTypes;
-    SymbolTableImpl<String, Expression> symbolTable = new SymbolTableImpl();
+    //SymbolTableImpl<String, Expression> symbolTable = new SymbolTableImpl();
+    private SymbolTableImpl<String, ExpressionType> symbolTable = new SymbolTableImpl();
 
     public void check(AST ast) {
         // variableTypes = new HANLinkedList<>();
@@ -62,7 +65,56 @@ public class Checker {
 //        }
         if(childNode instanceof VariableAssignment) {
             VariableAssignment var = (VariableAssignment) childNode;
-            symbolTable.assignSymbol(var.name.name, var.expression);
+            //symbolTable.assignSymbol(var.name.name, var.expression);
+            symbolTable.assignSymbol(var.name.name, resolve_type_of_lit_op_varreference(var.expression));
+
+        }
+    }
+
+    private ExpressionType resolve_type_of_lit_op_varreference(Expression ex) {
+        // Literal direct
+        if (ex instanceof Literal) {
+            return literalToType((Literal) ex);
+        }
+        // Expression check soort expression
+        else if (ex instanceof Operation) {
+            Operation op = (Operation) ex;
+            ExpressionType type;
+
+            type = resolve_type_of_lit_op_varreference(op.lhs);
+
+            ExpressionType typerhs = resolve_type_of_lit_op_varreference(op.rhs);
+
+            if (typerhs == ExpressionType.PERCENTAGE) {
+                type = ExpressionType.PERCENTAGE;
+            } else if (typerhs == ExpressionType.PIXEL) {
+                type = ExpressionType.PIXEL;
+            }
+
+            return type;
+        }
+        // Var pak uit symbol table
+        else if (ex instanceof VariableReference) {
+            return symbolTable.getValue(((VariableReference) ex).name);
+        }
+        return ExpressionType.UNDEFINED;
+    }
+
+
+    private ExpressionType literalToType(Literal l) {
+        switch (l.getClass().getName()) {
+            case "nl.han.ica.icss.ast.literals.BoolLiteral":
+                return ExpressionType.BOOL;
+            case "nl.han.ica.icss.ast.literals.ColorLiteral":
+                return ExpressionType.COLOR;
+            case "nl.han.ica.icss.ast.literals.PercentageLiteral":
+                return ExpressionType.PERCENTAGE;
+            case "nl.han.ica.icss.ast.literals.PixelLiteral":
+                return ExpressionType.PIXEL;
+            case "nl.han.ica.icss.ast.literals.ScalarLiteral":
+                return ExpressionType.SCALAR;
+            default:
+                return ExpressionType.UNDEFINED;
         }
     }
 
@@ -84,6 +136,7 @@ public class Checker {
     // ColorLiteral
     // | 'width' | 'height'
     // PercantageLiteral, PixelLiteral
+    // TODO checkt dit ook met variabelen en expressions.
     private void checkCH04(ASTNode node) {
         if (!(node instanceof Declaration)) {
             return;
@@ -107,6 +160,9 @@ public class Checker {
             }
         }
     }
+
+
+
     // Alleen errors geven bij variable references in expressions
     private void checkCH01CH06(ASTNode node) {
         if (node instanceof VariableAssignment ) {
@@ -148,7 +204,8 @@ public class Checker {
             correct = true;
         }
         if(ifnode.conditionalExpression instanceof VariableReference) {
-            if ( symbolTable.getValue(((VariableReference) ifnode.conditionalExpression).name ) instanceof BoolLiteral) {
+            //if ( symbolTable.getValue(((VariableReference) ifnode.conditionalExpression).name ) instanceof BoolLiteral) {
+            if ( symbolTable.getValue(((VariableReference) ifnode.conditionalExpression).name ) == ExpressionType.BOOL ) {
                 correct = true;
             }
         }

@@ -4,10 +4,14 @@ import nl.han.ica.datastructures.IHANStack;
 import nl.han.ica.datastructures.StackImpl;
 import nl.han.ica.datastructures.SymbolTableImpl;
 import nl.han.ica.icss.ast.*;
+import nl.han.ica.icss.ast.literals.BoolLiteral;
 import nl.han.ica.icss.ast.literals.NumberLiteral;
 import nl.han.ica.icss.ast.literals.PercentageLiteral;
 import nl.han.ica.icss.ast.literals.PixelLiteral;
 import nl.han.ica.icss.ast.operations.MultiplyOperation;
+
+import java.util.List;
+import java.util.Optional;
 
 public class Evaluator implements Transform {
 
@@ -38,6 +42,7 @@ public class Evaluator implements Transform {
     }
 
     private void evaluateNode(ASTNode childNode, ASTNode parent) {
+        evaluateIfElse(childNode, parent);
         evaluateVariableReference(childNode, parent);
         evaluateOperations(childNode, parent);
 
@@ -110,10 +115,42 @@ public class Evaluator implements Transform {
         parent.addChild(newNode);
     }
 
+    // Like for bodies of stylerules and if statements.
+    private void replaceNodeWithNodes(ASTNode parent, ASTNode oldNode, List<ASTNode> replacement) {
+        parent.removeChild(oldNode);
+        for (ASTNode replace: replacement) {
+            parent.addChild(replace);
+        }
+    }
+
     private void evaluateVariableReference(ASTNode childNode, ASTNode parent) {
         if (childNode instanceof VariableReference && parent instanceof Declaration) {
             VariableReference var = (VariableReference) childNode;
             replaceNode(parent, childNode, symbolTable.getValue(var.name));
+        }
+    }
+
+    private void evaluateIfElse(ASTNode childNode, ASTNode parent) {
+        if(!(childNode instanceof IfClause))
+            return;
+
+        IfClause ifClause = (IfClause) childNode;
+        BoolLiteral condition = null;
+        if (ifClause.conditionalExpression instanceof Literal) {
+            condition = (BoolLiteral) ifClause.conditionalExpression;
+        } else if (ifClause.conditionalExpression instanceof VariableReference) {
+            condition = (BoolLiteral) symbolTable.getValue(((VariableReference)ifClause.conditionalExpression).name);
+        }
+
+        if (condition.value) {
+            evaluateNodes(childNode);
+            replaceNodeWithNodes(parent, childNode, ifClause.body);
+        } else {
+            Optional<ElseClause> optionalElseClause = Optional.of(ifClause.elseClause);
+            if(optionalElseClause.isPresent()) {
+                evaluateNodes(childNode);
+                replaceNodeWithNodes(parent, childNode, optionalElseClause.get().body);
+            }
         }
     }
 }
