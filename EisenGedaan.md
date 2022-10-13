@@ -11,6 +11,7 @@ Per CH onderdeel kun je 0 of de aangegeven punten krijgen.
 | CH05 | ✔ | Controleer of de conditie bij een if-statement van het type boolean is (zowel bij een variabele-referentie als een boolean literal)                                                                                                                                                  | Should | 5      |
 | CH06 | ✔ | Controleer of variabelen enkel binnen hun scope gebruikt worden                                                                                                                                                                                                                      | Must   | 5      |                       |
 
+Eigen uitbreidingen (20 punten)
 
 | ID | Gedaan | Omschrijving | Punten |
 | --- | --- | ---|---|
@@ -19,7 +20,7 @@ Per CH onderdeel kun je 0 of de aangegeven punten krijgen.
 | 3 | ✔ | Line comments // en block comments  /*  */ comments zijn zeer belangrijk | 3 |
 | 4 | ✔ | Controleer of er geen booleans worden gebruikt in de operaties (plus, min en keer). | 2 |
 | 5 | ✔ | ( operaties ) geeft voorang | 2 |
-| 6 | --- | 2^2 machten toevoegen. Machten kunnen alleen SCALAIR zijn en volgen regel CH02 | |
+| 6 | ✔ | 2^2 machten toevoegen. Machten kunnen alleen SCALAIR zijn en volgen regel CH02 | 5 |
 
 footnote voor 3: However, it’s strongly recommended that you avoid this method in your code. The double-slash commenting method is not standardized in CSS (whereas the /* ... */ method is), meaning that it’s not guaranteed to work on all browsers.
 # Test voorbeelden
@@ -41,6 +42,9 @@ footnote voor 3: However, it’s strongly recommended that you avoid this method
     ERROR: Don't use colours in operations
 
 ## Eigen 1
+Start 14:53 pauze bij 15:59
+
+     Precedence := 22 < 20 && 3 == 2; // FALSE
 
 ## Eigen 3
 Start 11:07 tot 11:30
@@ -90,6 +94,26 @@ Output
         height: 66px;
     }
 ## Eigen 6
-14:01 start tot
+14:01 start tot 14:46
 
+Scalaire waarde exponent.
 Input
+
+    p {
+        width: 20 ^ 2 * 20px;
+    }
+Output
+
+    p {
+        width: 8000px;
+    }
+Check only scalar values
+Input
+
+    p {
+        width: 20 ^ 2px;
+        height: 2px ^ 3;
+    }
+
+    ERROR: Exponentiation operations can only be done on scalar values and/or use scalar values
+    ERROR: Exponentiation operations can only be done on scalar values and/or use scalar values

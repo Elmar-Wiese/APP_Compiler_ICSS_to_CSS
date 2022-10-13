@@ -53,6 +53,10 @@ BlOCK_COMMENT: '/*' .*? '*/' -> skip;
 // Ook de block comments hier kunnen meerdere in elkaar niet aan. Ga gewoon door.
 // /*  /* hoi */ */
 
+AND: '&&';
+NOT: '!';
+LESS_THAN: '<';
+EQUALS: '==';
 
 //--- PARSER: ---
 //stylesheet.addChild((new Stylerule())
@@ -100,7 +104,7 @@ variable: CAPITAL_IDENT;
 propertyname: 'color' | 'background-color' | 'width' | 'height';
 
 // Literal of Operation of  VariableReference
-expression: expression_non_recur | operation;
+expression: expression_non_recur | operation | boolean_expression;
 expression_non_recur: literal | variable;
 
 // BoolLiteral of ColorLiteral of PercentageLiteral of PixelLiteral of ScalarLiteral
@@ -136,4 +140,11 @@ if_statement:   IF BOX_BRACKET_OPEN boolean_expression BOX_BRACKET_CLOSE
 else_statement: ELSE OPEN_BRACE body CLOSE_BRACE;
 
 //3<5, Value==5, !AdjustWidth
- boolean_expression: variable | boolliteral;
+// Precedence := 22 < 20 && 3 == 2;
+// Ik wil eerst 22 < 20, daarna 3 == 2 en dan &&
+ boolean_expression: expression_non_recur
+                    | PARENTHESES_OPEN boolean_expression PARENTHESES_CLOSE
+                    | NOT boolean_expression
+                    | boolean_expression (EQUALS | LESS_THAN) boolean_expression
+                    | boolean_expression AND boolean_expression;
+

@@ -6,17 +6,12 @@ import nl.han.ica.datastructures.StackImpl;
 import nl.han.ica.icss.ast.*;
 import nl.han.ica.icss.ast.literals.*;
 import nl.han.ica.icss.ast.operations.AddOperation;
+import nl.han.ica.icss.ast.operations.ExponentiationOperation;
 import nl.han.ica.icss.ast.operations.MultiplyOperation;
 import nl.han.ica.icss.ast.operations.SubtractOperation;
 import nl.han.ica.icss.ast.selectors.ClassSelector;
 import nl.han.ica.icss.ast.selectors.IdSelector;
 import nl.han.ica.icss.ast.selectors.TagSelector;
-import org.antlr.v4.runtime.ParserRuleContext;
-
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.function.Predicate;
 
 /**
  * This class extracts the ICSS Abstract Syntax Tree from the Antlr Parse tree.
@@ -156,6 +151,10 @@ public class ASTListener extends ICSSBaseListener{
 				break;
 			case "-":
 				operation = new SubtractOperation();
+				break;
+			case "^":
+				operation = new ExponentiationOperation();
+				break;
 		}
 		//System.out.println(ctx.getText());
 		//System.out.println(ctx.getChild(1)); // child 1 is de operator
@@ -180,6 +179,8 @@ public class ASTListener extends ICSSBaseListener{
 			case "+":
 				return false;
 			case "-":
+				return false;
+			case "^":
 				return false;
 		}
 		return true;
@@ -208,6 +209,50 @@ public class ASTListener extends ICSSBaseListener{
 	@Override
 	public void exitElse_statement(ICSSParser.Else_statementContext ctx) {
 		currentContainer.pop();
+	}
+
+	@Override
+	public void enterBoolean_expression(ICSSParser.Boolean_expressionContext ctx) {
+//		if(ctx.expression_non_recur() != null || isNotStackedOperation(ctx.getChild(1).getText())) {
+//			return;
+//		}
+//		Operation operation = null;
+//		switch (ctx.getChild(1).getText()) {
+//			case "*":
+//				operation = new MultiplyOperation();
+//				break;
+//			case "+":
+//				operation = new AddOperation();
+//				break;
+//			case "-":
+//				operation = new SubtractOperation();
+//				break;
+//			case "^":
+//				operation = new ExponentiationOperation();
+//				break;
+//		}
+
+		if (ctx.expression_non_recur() != null || !(isStackedBooleanExpression(ctx.getChild(1).getText()) || ctx.getChild(0).getText().equals("!")))
+			return;
+
+
+	}
+
+	private boolean isStackedBooleanExpression(String text) {
+		switch (text) {
+			case "==":
+				return true;
+			case "<":
+				return true;
+			case "&&":
+				return true;
+		}
+		return false;
+	}
+
+	@Override
+	public void exitBoolean_expression(ICSSParser.Boolean_expressionContext ctx) {
+		super.exitBoolean_expression(ctx);
 	}
 
 	private void push(ASTNode node) {

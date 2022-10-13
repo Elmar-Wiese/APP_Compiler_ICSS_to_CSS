@@ -7,6 +7,7 @@ import nl.han.ica.icss.ast.literals.ColorLiteral;
 import nl.han.ica.icss.ast.literals.PercentageLiteral;
 import nl.han.ica.icss.ast.literals.PixelLiteral;
 import nl.han.ica.icss.ast.operations.AddOperation;
+import nl.han.ica.icss.ast.operations.ExponentiationOperation;
 import nl.han.ica.icss.ast.operations.MultiplyOperation;
 import nl.han.ica.icss.ast.operations.SubtractOperation;
 import nl.han.ica.icss.ast.types.ExpressionType;
@@ -140,6 +141,7 @@ public class Checker {
         checkCH02(childNode);
         checkCH05(childNode);
         checkCH03(childNode);
+        checkEigenCheck1(childNode);
     }
     // 'color' | 'background-color'
     // ColorLiteral
@@ -249,5 +251,15 @@ public class Checker {
                     node.setError("Don't use booleans in operations");
             }
         }
+    }
+
+    private void checkEigenCheck1(ASTNode node) {
+        if(!(node instanceof ExponentiationOperation))
+            return;
+
+        ExponentiationOperation eo = (ExponentiationOperation) node;
+
+        if (resolve_type_of_lit_op_varreference(eo.lhs) != ExpressionType.SCALAR || resolve_type_of_lit_op_varreference(eo.rhs) != ExpressionType.SCALAR)
+            node.setError("Exponentiation operations can only be done on scalar values and/or use scalar values");
     }
 }
