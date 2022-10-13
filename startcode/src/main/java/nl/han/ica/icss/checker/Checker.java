@@ -145,28 +145,21 @@ public class Checker {
     // ColorLiteral
     // | 'width' | 'height'
     // PercantageLiteral, PixelLiteral
-    // TODO checkt dit ook met variabelen en expressions.
     private void checkCH04(ASTNode node) {
         if (!(node instanceof Declaration)) {
             return;
         }
         Declaration declaration = ((Declaration) node);
-        // TODO herschrijven naar minder dubbele code.
+
+        ExpressionType expressionType = resolve_type_of_lit_op_varreference(declaration.expression);
         if (declaration.property.name.equals("color")  || declaration.property.name.equals("background-color")) {
-            if (declaration.expression instanceof Literal) {
-                Literal literal = (Literal) declaration.expression;
-                if (!(literal instanceof ColorLiteral)) {
-                    declaration.setError("color declarations must be assigned hexadecimal values");
-                }
-            }
+            if (expressionType != ExpressionType.COLOR)
+                declaration.setError("color declarations must be assigned hexadecimal values");
         }
         if (declaration.property.name.equals("width") || declaration.property.name.equals("height")) {
-            if (declaration.expression instanceof Literal) {
-                Literal literal = (Literal) declaration.expression;
-                if (!(literal instanceof PercentageLiteral || literal instanceof PixelLiteral)) {
-                    declaration.setError("size declarations must be assigned percentage or pixel values");
-                }
-            }
+            if (!(expressionType == ExpressionType.PERCENTAGE || expressionType == ExpressionType.PIXEL))
+                declaration.setError("size declarations must be assigned percentage or pixel values");
+
         }
     }
 
