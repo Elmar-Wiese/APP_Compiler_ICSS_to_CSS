@@ -2,6 +2,7 @@ package nl.han.ica.icss.transforms;
 
 import nl.han.ica.datastructures.SymbolTableImpl;
 import nl.han.ica.icss.ast.*;
+import nl.han.ica.icss.ast.literals.NumberLiteral;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -10,15 +11,12 @@ public class Evaluator implements Transform {
 
     SymbolTableImpl<String, Literal> symbolTable;
 
-    SymbolTableImpl<String, Literal> getSymbolTable() { return symbolTable; }
-
     private List<BaseTransform> transforms;
 
     public Evaluator() {
         transforms = new LinkedList<>();
         transforms.add(new IfElseEvaluator(this));
-        transforms.add(new VariableReferenceTransform(this));
-        transforms.add(new OperationTransform(this));
+        transforms.add(new DeclarationTransform(this));
     }
 
     @Override
@@ -60,17 +58,66 @@ public class Evaluator implements Transform {
         } else
         if(childNode instanceof VariableAssignment) {
             VariableAssignment var = (VariableAssignment) childNode;
-            if (var.expression instanceof Operation) {
-                evaluateNode(var.expression, var);
-                symbolTable.assignSymbol(var.name.name, (Literal) var.expression);
-            } else if (var.expression instanceof VariableReference) {
-                symbolTable.assignSymbol(var.name.name, symbolTable.getValue(var.name.name));
-            } else { // Literal
-                symbolTable.assignSymbol(var.name.name, (Literal) var.expression);
-            }
+            symbolTable.assignSymbol(var.name.name, expressionToLiteral(var.expression));
+//            if (var.expression instanceof Operation) {
+//                evaluateNode(var.expression, var);
+//                symbolTable.assignSymbol(var.name.name, (Literal) var.expression);
+//            } else if (var.expression instanceof VariableReference) {
+//                symbolTable.assignSymbol(var.name.name, symbolTable.getValue(var.name.name));
+//            } else { // Literal
+//                symbolTable.assignSymbol(var.name.name, (Literal) var.expression);
+//            }
         }
     }
 
+    public Literal expressionToLiteral(Expression expression) {
+        Literal returnValue = null;
 
+        if(expression instanceof Operation) {
+            returnValue = LRcurrentCalculation((Operation) expression);
+        } else if (expression instanceof VariableReference) {
+            returnValue = symbolTable.getValue(((VariableReference) expression).name);
+        } else if (expression instanceof Literal) {
+            returnValue = (Literal)expression;
+        }
+
+        return returnValue;
+    }
+
+
+    // BOTTUM UP    L R current
+    // Jemig wat een heftige recursie kosten.
+    private NumberLiteral LRcurrentCalculation(Operation op) {
+        NumberLiteral left = (NumberLiteral) expressionToLiteral(op.lhs);
+        NumberLiteral right = (NumberLiteral) expressionToLiteral(op.rhs);
+        return op.operation(left, right);
+        //IHANStack<NumberLiteral> calcStack = new StackImpl<>();
+        //calcStack.push((NumberLiteral) expressionToLiteral(op.lhs));
+
+        //calcStack.push((NumberLiteral) expressionToLiteral(op.rhs));
+//        if (expression instanceof Operation) {
+//            IHANStack<NumberLiteral> calcStack;
+//            calcStack.push();
+//            LRcurrentCalculation(((Operation)expression).lhs);
+//
+//            LRcurrentCalculation(((Operation)expression).rhs);
+//
+//            doOperation((Operation) expression);
+//        }
+//        if (expression instanceof NumberLiteral) {
+//            calcStack.push((NumberLiteral) expression);
+//        }
+//        if (expression instanceof VariableReference) {
+//            calcStack.push((NumberLiteral) ev.getSymbolTable().getValue(((VariableReference) expression).name));
+//        }
+//
+//        return calcStack.peek();
+    }
+
+//    private void doOperation(Operation op) {
+////        NumberLiteral right = calcStack.pop();
+////        NumberLiteral left = calcStack.pop();
+////        calcStack.push(op.operation(left, right));
+//    }
 
 }

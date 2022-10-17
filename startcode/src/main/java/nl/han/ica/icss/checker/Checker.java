@@ -8,14 +8,18 @@ import java.util.List;
 
 public class Checker {
     private SymbolTableImpl<String, ExpressionType> symbolTable;
-    private List<BaseCheck> checks = new LinkedList<>();
+    private List<BaseCheck> checks;
 
-    public void check(AST ast) {
-        symbolTable = new SymbolTableImpl();
+    public Checker() {
+        checks = new LinkedList<>();
         checks.add(new VariableReferenceCheck(this));
         checks.add(new DeclerationCheck(this));
         checks.add(new IfCheck(this));
         checks.add(new OperationCheck(this));
+    }
+
+    public void check(AST ast) {
+        symbolTable = new SymbolTableImpl();
 
         checkNodes(ast.root);
     }
