@@ -1,6 +1,7 @@
 package nl.han.ica.icss.ast.literals;
 
 import nl.han.ica.icss.ast.Literal;
+import nl.han.ica.icss.ast.types.ExpressionType;
 
 import java.util.Objects;
 
@@ -35,5 +36,10 @@ public class ScalarLiteral extends NumberLiteral {
     @Override
     public int getNumber() {
         return value;
+    }
+
+    @Override
+    public ExpressionType GetExpressionType() {
+        return ExpressionType.SCALAR;
     }
 }

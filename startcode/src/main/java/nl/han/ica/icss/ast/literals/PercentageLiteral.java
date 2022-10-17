@@ -1,6 +1,7 @@
 package nl.han.ica.icss.ast.literals;
 
 import nl.han.ica.icss.ast.Literal;
+import nl.han.ica.icss.ast.types.ExpressionType;
 
 import java.util.Objects;
 
@@ -40,5 +41,10 @@ public class PercentageLiteral extends NumberLiteral {
     @Override
     public String toString() {
         return String.valueOf(value) + '%';
+    }
+
+    @Override
+    public ExpressionType GetExpressionType() {
+        return ExpressionType.PERCENTAGE;
     }
 }
