@@ -43,8 +43,44 @@ footnote voor 3: However, it’s strongly recommended that you avoid this method
 
 ## Eigen 1
 Start 14:53 pauze bij 15:59
+Nog later ook 1.5 uur. Volgens mij.
+Input
 
      Precedence := 22 < 20 && 3 == 2; // FALSE
+     p {
+        if[Precedence] {
+            width: 100px;
+        }
+        if[!FALSE] {
+            height: 200px;
+        } else {
+            height: 300px;
+        }
+    }
+    Scalar := 2;
+    Correct := 1 < Scalar;
+    Colorref := #ffffff;
+    Correctt := #ffffff == Colorref;
+
+    #bovenaan {
+        if[Correct] {
+            if[Correctt] {
+                background-color: Colorref;
+            } else {
+                color: #000000;
+            }
+        } else {
+            color: #001100;
+        }
+    }
+Output
+
+    p {
+        height: 200px;
+    }
+    #bovenaan {
+        background-color: #ffffff;
+    }
 
 ## Eigen 3
 Start 11:07 tot 11:30

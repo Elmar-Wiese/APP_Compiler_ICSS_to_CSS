@@ -7,6 +7,6 @@ public class EqualsOperation extends ComparisonOperation{
     }
     @Override
     protected boolean compare(Comparable val1, Comparable val2) {
-        return false;
+        return val1.equals(val2);
     }
 }

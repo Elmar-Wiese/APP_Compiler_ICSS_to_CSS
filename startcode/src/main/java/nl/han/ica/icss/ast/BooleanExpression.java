@@ -1,3 +1,3 @@
 package nl.han.ica.icss.ast;
 
-public abstract class BooleanExpression extends ASTNode{ }
+public abstract class BooleanExpression extends Expression{ }

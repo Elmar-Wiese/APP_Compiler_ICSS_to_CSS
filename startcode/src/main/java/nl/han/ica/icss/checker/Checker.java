@@ -79,6 +79,8 @@ public class Checker {
         // Var pak uit symbol table
         else if (ex instanceof VariableReference) {
             return symbolTable.getValue(((VariableReference) ex).name);
+        } else if (ex instanceof BooleanExpression) {
+            return ExpressionType.BOOL;
         }
         return ExpressionType.UNDEFINED;
     }

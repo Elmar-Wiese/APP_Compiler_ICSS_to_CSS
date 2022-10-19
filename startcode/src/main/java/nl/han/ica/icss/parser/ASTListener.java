@@ -4,6 +4,10 @@ package nl.han.ica.icss.parser;
 import nl.han.ica.datastructures.IHANStack;
 import nl.han.ica.datastructures.StackImpl;
 import nl.han.ica.icss.ast.*;
+import nl.han.ica.icss.ast.booloperations.AndOperation;
+import nl.han.ica.icss.ast.booloperations.EqualsOperation;
+import nl.han.ica.icss.ast.booloperations.LessThanOperation;
+import nl.han.ica.icss.ast.booloperations.NotOperation;
 import nl.han.ica.icss.ast.literals.*;
 import nl.han.ica.icss.ast.operations.AddOperation;
 import nl.han.ica.icss.ast.operations.ExponentiationOperation;
@@ -200,9 +204,6 @@ public class ASTListener extends ICSSBaseListener{
 
 	@Override
 	public void enterElse_statement(ICSSParser.Else_statementContext ctx) {
-//		ElseClause newElse = new ElseClause();
-//		currentContainer.peek().addChild(newElse);
-//		currentContainer.push(newElse);
 		push(new ElseClause());
 	}
 
@@ -213,29 +214,27 @@ public class ASTListener extends ICSSBaseListener{
 
 	@Override
 	public void enterBoolean_expression(ICSSParser.Boolean_expressionContext ctx) {
-//		if(ctx.expression_non_recur() != null || isNotStackedOperation(ctx.getChild(1).getText())) {
-//			return;
-//		}
-//		Operation operation = null;
-//		switch (ctx.getChild(1).getText()) {
-//			case "*":
-//				operation = new MultiplyOperation();
-//				break;
-//			case "+":
-//				operation = new AddOperation();
-//				break;
-//			case "-":
-//				operation = new SubtractOperation();
-//				break;
-//			case "^":
-//				operation = new ExponentiationOperation();
-//				break;
-//		}
-
 		if (ctx.expression_non_recur() != null || !(isStackedBooleanExpression(ctx.getChild(1).getText()) || ctx.getChild(0).getText().equals("!")))
 			return;
 
+		BooleanExpression operation = null;
+		switch (ctx.getChild(1).getText()) {
+			case "&&":
+				operation = new AndOperation();
+				break;
+			case "==":
+				operation = new EqualsOperation();
+				break;
+			case "<":
+				operation = new LessThanOperation();
+				break;
+			default:
+				if (ctx.getChild(0).getText().equals("!")) {
+					operation = new NotOperation();
+				}
+		}
 
+		push(operation);
 	}
 
 	private boolean isStackedBooleanExpression(String text) {
@@ -252,7 +251,9 @@ public class ASTListener extends ICSSBaseListener{
 
 	@Override
 	public void exitBoolean_expression(ICSSParser.Boolean_expressionContext ctx) {
-		super.exitBoolean_expression(ctx);
+		if (ctx.expression_non_recur() != null || !(isStackedBooleanExpression(ctx.getChild(1).getText()) || ctx.getChild(0).getText().equals("!")))
+			return;
+		currentContainer.pop();
 	}
 
 	private void push(ASTNode node) {

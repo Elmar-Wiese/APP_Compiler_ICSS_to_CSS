@@ -2,6 +2,9 @@ package nl.han.ica.icss.transforms;
 
 import nl.han.ica.datastructures.SymbolTableImpl;
 import nl.han.ica.icss.ast.*;
+import nl.han.ica.icss.ast.booloperations.ComparisonOperation;
+import nl.han.ica.icss.ast.booloperations.NotOperation;
+import nl.han.ica.icss.ast.literals.BoolLiteral;
 import nl.han.ica.icss.ast.literals.NumberLiteral;
 
 import java.util.LinkedList;
@@ -79,6 +82,8 @@ public class Evaluator implements Transform {
             returnValue = symbolTable.getValue(((VariableReference) expression).name);
         } else if (expression instanceof Literal) {
             returnValue = (Literal)expression;
+        } else if (expression instanceof BooleanExpression) {
+            returnValue = LRcurrentBooleanExpression((BooleanExpression) expression); // Hmm deze en die van calculation lijken op elkaar.
         }
 
         return returnValue;
@@ -91,6 +96,25 @@ public class Evaluator implements Transform {
         NumberLiteral left = (NumberLiteral) expressionToLiteral(op.lhs);
         NumberLiteral right = (NumberLiteral) expressionToLiteral(op.rhs);
         return op.operation(left, right);
+    }
+
+    private BoolLiteral LRcurrentBooleanExpression(BooleanExpression be) {
+        if (be instanceof NotOperation) {
+            NotOperation no = ((NotOperation) be);
+            return new BoolLiteral(no.run((BoolLiteral) expressionToLiteral(no.value)));
+        } else {
+            ComparisonOperation co = (ComparisonOperation) be;
+            return co.operation(expressionToLiteral(co.lhs), expressionToLiteral(co.rhs));
+        }
+    }
+
+//    private void doOperation(Operation op) {
+////        NumberLiteral right = calcStack.pop();
+////        NumberLiteral left = calcStack.pop();
+////        calcStack.push(op.operation(left, right));
+//    }
+
+    //private NumberLiteral LRcurrentCalculation(Operation op) {
         //IHANStack<NumberLiteral> calcStack = new StackImpl<>();
         //calcStack.push((NumberLiteral) expressionToLiteral(op.lhs));
 
@@ -112,12 +136,5 @@ public class Evaluator implements Transform {
 //        }
 //
 //        return calcStack.peek();
-    }
-
-//    private void doOperation(Operation op) {
-////        NumberLiteral right = calcStack.pop();
-////        NumberLiteral left = calcStack.pop();
-////        calcStack.push(op.operation(left, right));
 //    }
-
 }

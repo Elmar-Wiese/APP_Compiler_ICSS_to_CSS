@@ -26,10 +26,12 @@ public class IfElseEvaluator extends BaseTransform{
             ev.evaluateNodes(childNode);
             replaceNodeWithNodes(parent, childNode, ifClause.body);
         } else {
-            Optional<ElseClause> optionalElseClause = Optional.of(ifClause.elseClause);
+            Optional<ElseClause> optionalElseClause = Optional.ofNullable(ifClause.elseClause);
             if(optionalElseClause.isPresent()) {
                 ev.evaluateNodes(childNode);
                 replaceNodeWithNodes(parent, childNode, optionalElseClause.get().body);
+            } else {
+                replaceNodeWithNodes(parent, childNode, null);
             }
         }
 

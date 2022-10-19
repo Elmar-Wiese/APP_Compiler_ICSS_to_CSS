@@ -39,7 +39,8 @@ public abstract class ComparisonOperation extends BooleanExpression {
             newVal = compare(((BoolLiteral) val1).value, ((BoolLiteral) val2).value);
         else if (val1 instanceof NumberLiteral)
             newVal = compare(((NumberLiteral) val1).getNumber(), ((NumberLiteral) val2).getNumber());
-
+        else if (val1 instanceof ColorLiteral) // :(
+            newVal = compare(((ColorLiteral) val1).value, ((ColorLiteral) val2).value);
 //        if (val1 instanceof PercentageLiteral | val2 instanceof PercentageLiteral) {
 //            newVal = new PercentageLiteral(calculation(val1.getNumber(), val2.getNumber()));
 //        } else if (val1 instanceof PixelLiteral | val2 instanceof PixelLiteral) {

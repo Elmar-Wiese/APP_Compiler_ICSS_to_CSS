@@ -20,8 +20,10 @@ abstract public class BaseTransform {
     // Like for bodies of stylerules and if statements.
     protected void replaceNodeWithNodes(ASTNode parent, ASTNode oldNode, List<ASTNode> replacement) {
         parent.removeChild(oldNode);
-        for (ASTNode replace: replacement) {
-            parent.addChild(replace);
+        if (replacement != null) {
+            for (ASTNode replace : replacement) {
+                parent.addChild(replace);
+            }
         }
     }
 
