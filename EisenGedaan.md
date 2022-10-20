@@ -14,32 +14,100 @@ Per CH onderdeel kun je 0 of de aangegeven punten krijgen.
 Eigen uitbreidingen (20 punten)
 
 | ID | Gedaan | Omschrijving | Punten |
-| --- | --- | ---|---|
-| 1 | --- | Implementeren van booleaanse expressies zoals 3<5, Value==5, !AdjustWidth (deze kunnen worden gebruikt in if statement) en && | |
-| 2 | --- | Checken van booleaanse expressies. Bij > dat de waardes van hetzelfde type zijn en alleen 20% 20px 22. Hiernaast dat ! en &&  alleen op booleanse waardes (of expressies) kan | |
-| 3 | ✔ | Line comments // en block comments  /*  */ comments zijn zeer belangrijk | 3 |
-| 4 | ✔ | Controleer of er geen booleans worden gebruikt in de operaties (plus, min en keer). | 2 |
-| 5 | ✔ | ( operaties ) geeft voorang | 2 |
-| 6 | ✔ | 2^2 machten toevoegen. Machten kunnen alleen SCALAIR zijn en volgen regel CH02 | 5 |
+| --- | --- | ---|--------|
+| 1 | ✔ | Implementeren van booleaanse expressies zoals 3<5, Value==5, !AdjustWidth (deze kunnen worden gebruikt in if statement) en && | 8      |
+| 2 | --- | Checken van booleaanse expressies. Bij > dat de waardes van hetzelfde type zijn en alleen 20% 20px 22. Hiernaast dat ! en &&  alleen op booleanse waardes (of expressies) kan |        |
+| 3 | ✔ | Line comments // en block comments  /*  */  | 1      |
+| 4 | ✔ | Controleer of er geen booleans worden gebruikt in de operaties (plus, min en keer). | 2      |
+| 5 | ✔ | ( operaties ) geeft voorang | 3      |
+| 6 | ✔ | 2^2 machten toevoegen. Machten kunnen alleen SCALAIR zijn en volgen regel CH02 | 5      |
 
 footnote voor 3: However, it’s strongly recommended that you avoid this method in your code. The double-slash commenting method is not standardized in CSS (whereas the /* ... */ method is), meaning that it’s not guaranteed to work on all browsers.
 # Test voorbeelden
 
 ##CH01 en CH06
+Input
+
+    LinkColor := #ff0000;
+    MeaningOfLife := MeaningOfLife;
+
+    p {
+        ParWidth := 20px;
+        background-color: LinkColor;
+        width: ParWidth;
+    }
+    
+    #menu {
+        width: ParWidth;
+    }
+Output
+
+    ERROR: Variable has not been defined
+    ERROR: Variable has not been defined
 
 ##CH02
+Input
+
     Plusslagen := 20px + 20px;
     Minfalen := 20px + 10%; 
     Keerhalen := 20% * 2;
     Keerfalen := 10px * 10px;
+Output
 
     ERROR: Add operation values must be off same type
     ERROR: One of the values of a multiply operation must be scalar
 
 ##CH03
+Input
+
     Plusmetkleuren := #808080 + #808080;
 
+Output
+
     ERROR: Don't use colours in operations
+
+##CH04
+Input
+
+    LinkColor := #ff0000;
+
+    p {
+        background-color: LinkColor;
+        width: LinkColor; // Error
+    }
+    
+    #menu {
+        height: 50 * 20; // Error
+        width: 2 * 30%;
+        color: 10px; // Error
+    }
+Output
+
+    ERROR: size declarations must be assigned percentage or pixel values
+    ERROR: size declarations must be assigned percentage or pixel values
+    ERROR: color declarations must be assigned hexadecimal values
+    
+
+## CH05
+Input
+
+    Boolean := TRUE;
+    NotBoolean :=	10px;
+    
+    .777 {
+        if [TRUE] {
+            width:50%;
+        }
+        if [NotBoolean]{
+            height:10px;
+        }
+        if[Boolean] {
+            color: #ffff22;
+        }
+    }
+Output
+
+    ERROR: If statement condition is not boolean
 
 ## Eigen 1
 Start 14:53 pauze bij 15:59
@@ -150,6 +218,7 @@ Input
         width: 20 ^ 2px;
         height: 2px ^ 3;
     }
+Output
 
     ERROR: Exponentiation operations can only be done on scalar values and/or use scalar values
     ERROR: Exponentiation operations can only be done on scalar values and/or use scalar values

@@ -70,14 +70,8 @@ public class ASTListener extends ICSSBaseListener{
 	}
 
 	@Override
-	public void exitIdentity(ICSSParser.IdentityContext ctx) {
-		// nothing was pushed
-	}
-
-	@Override
 	public void enterDeclaration(ICSSParser.DeclarationContext ctx) {
 		Declaration newDec = new Declaration(ctx.propertyname().getText());
-		//System.out.println(ctx.getText());
 		currentContainer.peek().addChild(newDec);
 		currentContainer.push(newDec);
 	}
@@ -86,10 +80,6 @@ public class ASTListener extends ICSSBaseListener{
 	public void exitDeclaration(ICSSParser.DeclarationContext ctx) {
 		currentContainer.pop();
 	}
-
-	// propertyname: 'color' | 'background-color' | 'width' | 'height';
-
-
 
 	@Override
 	public void enterDeclare_variable(ICSSParser.Declare_variableContext ctx) {
@@ -160,12 +150,8 @@ public class ASTListener extends ICSSBaseListener{
 				operation = new ExponentiationOperation();
 				break;
 		}
-		//System.out.println(ctx.getText());
-		//System.out.println(ctx.getChild(1)); // child 1 is de operator
-		//if (operation != null) {
 		currentContainer.peek().addChild(operation);
 		currentContainer.push(operation);
-		//}
 	}
 
 	@Override
@@ -229,9 +215,9 @@ public class ASTListener extends ICSSBaseListener{
 				operation = new LessThanOperation();
 				break;
 			default:
-				if (ctx.getChild(0).getText().equals("!")) {
+				//if (ctx.getChild(0).getText().equals("!")) {
 					operation = new NotOperation();
-				}
+				//}
 		}
 
 		push(operation);
