@@ -246,7 +246,7 @@ Output
     ERROR: Exponentiation operations can only be done on scalar values and/or use scalar values
 
 ## Los 
-Ben toch niet helemaal blij dat dit niet werd geparsed.
+Ben toch niet helemaal blij dat dit niet werd geparsed. Dus opgelost.
 Input
 
     #223344 {
