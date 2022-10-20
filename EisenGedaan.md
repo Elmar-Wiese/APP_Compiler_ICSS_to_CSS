@@ -16,8 +16,8 @@ Eigen uitbreidingen (20 punten)
 | ID | Gedaan | Omschrijving | Punten |
 | --- | --- | ---|--------|
 | 1 | ✔ | Implementeren van booleaanse expressies zoals 3<5, Value==5, !AdjustWidth (deze kunnen worden gebruikt in if statement) en && | 8      |
-| 2 | ✔ | Checken van booleaanse expressies. Bij > dat de waardes van hetzelfde type zijn en alleen 20% 20px 22. Hiernaast dat ! en &&  alleen op booleanse waardes (of expressies) kan | 4  |
-| 3 | ✔ | Line comments // en block comments  /*  */  | 1      |
+| 2 | ✔ | Checken van booleaanse expressies. Bij > dat de waardes van hetzelfde type zijn en alleen 20% 20px 22. Hiernaast dat ! en &&  alleen op booleanse waardes (of expressies) kan | 4      |
+| 3 | ✔ | Line comments // en block comments  /*  */  | 0      |
 | 4 | ✔ | Controleer of er geen booleans worden gebruikt in de operaties (plus, min en keer). | 2      |
 | 5 | ✔ | ( operaties ) geeft voorang | 3      |
 | 6 | ✔ | 2^2 machten toevoegen. Machten kunnen alleen SCALAIR zijn en volgen regel CH02 | 5      |
