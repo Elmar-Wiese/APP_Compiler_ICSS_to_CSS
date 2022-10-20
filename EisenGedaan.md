@@ -126,9 +126,9 @@ Input
         }
     }
     Scalar := 2;
-    Correct := 1 < Scalar;
+    Correct := 1 < Scalar; // True
     Colorref := #ffffff;
-    Correctt := #ffffff == Colorref;
+    Correctt := #ffffff == Colorref; // True
 
     #bovenaan {
         if[Correct] {
@@ -149,6 +149,23 @@ Output
     #bovenaan {
         background-color: #ffffff;
     }
+## Eigen 2
+35 min
+Input
+
+    Precedence := 22 < 20 && 3 == 2px; // FALSE
+    
+    Scalar := 2px;
+    Correct := 1 < Scalar; // Error
+
+    AND := 33 && 33;
+
+    N0T := !8;
+Output
+
+    ERROR: The values of the comparison operation must be of the same type
+    ERROR: The values of a boolean comparison must be boolean.
+    ERROR: Only boolean values can be used with Not Operator
 
 ## Eigen 3
 Start 11:07 tot 11:30
@@ -170,6 +187,8 @@ Output
     width: 20px;
     }
 ## Eigen 4
+Input
+
     Keermetbool := TRUE + FALSE;
 
     Bool := TRUE;
@@ -177,6 +196,9 @@ Output
     Test2 := Bool * Bool;
     
     Test3 := 2 * 2 * FALSE * FALSE;
+
+Output
+
     ERROR: Don't use booleans in operations
     ERROR: Don't use booleans in operations
     ERROR: Don't use booleans in operations
@@ -222,3 +244,17 @@ Output
 
     ERROR: Exponentiation operations can only be done on scalar values and/or use scalar values
     ERROR: Exponentiation operations can only be done on scalar values and/or use scalar values
+
+## Los 
+Ben toch niet helemaal blij dat dit niet werd geparsed.
+Input
+
+    #223344 {
+        color: #223344;
+    }
+
+Output
+
+    #223344 {
+        color: #223344;
+    }

@@ -59,12 +59,14 @@ public class ASTListener extends ICSSBaseListener{
 		Selector newNode = null;
 		if (ctx.CLASS_IDENT() != null) {
 			newNode = new ClassSelector(ctx.CLASS_IDENT().getText());
-		}
+		} else
 		if (ctx.ID_IDENT() != null) {
 			newNode = new IdSelector(ctx.ID_IDENT().getText());
-		}
+		} else
 		if (ctx.LOWER_IDENT() != null) {
 			newNode = new TagSelector(ctx.LOWER_IDENT().getText());
+		} else {
+			newNode = new IdSelector(ctx.COLOR().getText());
 		}
 		currentContainer.peek().addChild(newNode);
 	}

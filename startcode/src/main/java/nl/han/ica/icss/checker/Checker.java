@@ -16,6 +16,7 @@ public class Checker {
         checks.add(new DeclerationCheck(this));
         checks.add(new IfCheck(this));
         checks.add(new OperationCheck(this));
+        checks.add(new BooleanExpressionChecker(this));
     }
 
     public void check(AST ast) {

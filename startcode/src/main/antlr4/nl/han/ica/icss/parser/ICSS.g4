@@ -31,7 +31,7 @@ CAPITAL_IDENT: [A-Z] [A-Za-z0-9_]*;
 //All whitespace is skipped
 WS: [ \t\r\n]+ -> skip;
 
-//
+
 OPEN_BRACE: '{';
 CLOSE_BRACE: '}';
 SEMICOLON: ';';
@@ -43,71 +43,41 @@ EXPONENT: '^';
 ASSIGNMENT_OPERATOR: ':=';
 PARENTHESES_OPEN: '(';
 PARENTHESES_CLOSE: ')';
-// Usually comments are scanned (and discarded) as part of the tokenization process, but before parsing.
-// A comment works like a token separator even in the absence of whitespace around it.
-//OPEN_BLOCK_COMMENT: '/*';
-//CLOSE_BLOCK_COMMENT: '*/';
 
-LINE_COMMENT: '//' .*? ('\n' | EOF) -> skip; // Nu kan mijn css bestaan uit alleen één comment
+LINE_COMMENT: '//' .*? ('\n' | EOF) -> skip;
 BlOCK_COMMENT: '/*' .*? '*/' -> skip;
-// Ook de block comments hier kunnen meerdere in elkaar niet aan. Ga gewoon door.
+// Meerdere block comments in elkaar kan niet in dit g4 file dus ik doe dat ook niet.
 // /*  /* hoi */ */
 
+// Boolean operators
 AND: '&&';
 NOT: '!';
 LESS_THAN: '<';
 EQUALS: '==';
 
 //--- PARSER: ---
-//stylesheet.addChild((new Stylerule())
-stylesheet: node* EOF;
-//.addChild(new TagSelector("p"))
-//				.addChild((new Declaration("background-color"))
-//                        .addChild(new ColorLiteral("#ffffff")))
-//				.addChild((new Declaration("width"))
-//						.addChild(new PixelLiteral("500px")))
 
-//		stylesheet.addChild((new VariableAssignment())
-//                .addChild(new VariableReference("LinkColor"))
-//                .addChild(new ColorLiteral("#ff0000"))
-//        );
+stylesheet: node* EOF;
+
 node: stylerule | declare_variable;
 
-stylerule: identity OPEN_BRACE body CLOSE_BRACE; // This is probably greedy need to fix that someway. It's kinda greedy.
-// it finds the first close brace after the open brace.
-//  a {
-//  	color: LinkColor;
-//	    if[UseLinkColor]{ error
-//	        width: ParWidth;
-//	    } // CLOSE_BRACE it chooses
-//  }
+stylerule: identity OPEN_BRACE body CLOSE_BRACE;
 
-//OPEN_BRACE (declaration | if_statement)* CLOSE_BRACE
-body: (declare_variable | declaration | if_statement)+; // VARIABLE DECLAREN of DECLERATIONS of IF STATEMENT ZIJN
-// new Declaration("background-color")  .addChild(new ColorLiteral("#ffffff"))
-// Declaration(String property)
-// 	public PropertyName property;
-//	public Expression expression;
+identity: (ID_IDENT | COLOR) | CLASS_IDENT | LOWER_IDENT;
+
+body: (declare_variable | declaration | if_statement)+;
+
 declaration: propertyname COLON expression SEMICOLON;
 
-identity: ID_IDENT | CLASS_IDENT | LOWER_IDENT;
-
-//LinkColor := #ff0000;
-//Textcolor := Bgcolor;
 declare_variable: variable ASSIGNMENT_OPERATOR expression SEMICOLON;
 
 variable: CAPITAL_IDENT;
 
-
-// width of height
-// Alleen de properties color, background-color, width en height zijn toegestaan.
 propertyname: 'color' | 'background-color' | 'width' | 'height';
 
-// Literal of Operation of  VariableReference
 expression: expression_non_recur | operation | boolean_expression;
 expression_non_recur: literal | variable;
 
-// BoolLiteral of ColorLiteral of PercentageLiteral of PixelLiteral of ScalarLiteral
 boolliteral: TRUE | FALSE;
 colorliteral: COLOR;
 pixelliteral: PIXELSIZE;
@@ -115,12 +85,6 @@ percentageliteral: PERCENTAGE;
 scalarliteral: SCALAR;
 literal: boolliteral | colorliteral | pixelliteral | percentageliteral | scalarliteral;
 
-
-// Operation
-//operation: add_operation | multiply_operation | substract_operation;
-//add_operation: operation PLUS operation;
-//multiply_operation: operation MUL operation;
-//substract_operation: operation MIN operation;
 operation:
         | PARENTHESES_OPEN operation PARENTHESES_CLOSE
         | operation EXPONENT operation
@@ -128,23 +92,17 @@ operation:
         | operation (PLUS|MIN) operation
         | expression_non_recur;
 
-//							.addChild((new IfClause())
-//									.addChild(new VariableReference("UseLinkColor"))
-//									.addChild(new Declaration("background-color").addChild(new VariableReference("LinkColor")))
-//									.addChild((new ElseClause())
-//											.addChild(new Declaration("background-color").addChild(new ColorLiteral("#000000")))
+ boolean_expression: expression_non_recur
+                    | PARENTHESES_OPEN boolean_expression PARENTHESES_CLOSE
+                    | NOT boolean_expression
+                    | boolean_expression (EQUALS | LESS_THAN) boolean_expression
+                    | boolean_expression AND boolean_expression;
+
 if_statement:   IF BOX_BRACKET_OPEN boolean_expression BOX_BRACKET_CLOSE
                 OPEN_BRACE body CLOSE_BRACE
                 else_statement ?;
 
 else_statement: ELSE OPEN_BRACE body CLOSE_BRACE;
 
-//3<5, Value==5, !AdjustWidth
-// Precedence := 22 < 20 && 3 == 2;
-// Ik wil eerst 22 < 20, daarna 3 == 2 en dan &&
- boolean_expression: expression_non_recur
-                    | PARENTHESES_OPEN boolean_expression PARENTHESES_CLOSE
-                    | NOT boolean_expression
-                    | boolean_expression (EQUALS | LESS_THAN) boolean_expression
-                    | boolean_expression AND boolean_expression;
+
 
