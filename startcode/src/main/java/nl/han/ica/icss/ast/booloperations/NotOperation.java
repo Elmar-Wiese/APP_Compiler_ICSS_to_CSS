@@ -7,7 +7,7 @@ import nl.han.ica.icss.ast.Expression;
 import nl.han.ica.icss.ast.literals.BoolLiteral;
 
 import java.util.ArrayList;
-
+// Dit heet unary handig voor een volgende keer.
 public class NotOperation extends BooleanExpression {
     public Expression value;
 
