@@ -1,5 +1,6 @@
 package nl.han.ica.icss.transforms;
 
+import nl.han.ica.datastructures.ISymbolTable;
 import nl.han.ica.datastructures.SymbolTableImpl;
 import nl.han.ica.icss.ast.*;
 import nl.han.ica.icss.ast.booloperations.ComparisonOperation;
@@ -12,7 +13,7 @@ import java.util.List;
 
 public class Evaluator implements Transform {
 
-    SymbolTableImpl<String, Literal> symbolTable;
+    ISymbolTable<String, Literal> symbolTable;
 
     private List<BaseTransform> transforms;
 
@@ -41,9 +42,6 @@ public class Evaluator implements Transform {
     }
 
     private void evaluateNode(ASTNode childNode, ASTNode parent) {
-        //evaluateIfElse(childNode, parent);
-        //evaluateVariableReference(childNode, parent);
-        //evaluateOperations(childNode, parent);
         for (BaseTransform tf: transforms) {
             tf.transform(childNode, parent);
         }
@@ -62,14 +60,6 @@ public class Evaluator implements Transform {
         if(childNode instanceof VariableAssignment) {
             VariableAssignment var = (VariableAssignment) childNode;
             symbolTable.assignSymbol(var.name.name, expressionToLiteral(var.expression));
-//            if (var.expression instanceof Operation) {
-//                evaluateNode(var.expression, var);
-//                symbolTable.assignSymbol(var.name.name, (Literal) var.expression);
-//            } else if (var.expression instanceof VariableReference) {
-//                symbolTable.assignSymbol(var.name.name, symbolTable.getValue(var.name.name));
-//            } else { // Literal
-//                symbolTable.assignSymbol(var.name.name, (Literal) var.expression);
-//            }
         }
     }
 
@@ -89,8 +79,6 @@ public class Evaluator implements Transform {
         return returnValue;
     }
 
-
-    // BOTTUM UP    L R current
     // Jemig wat een heftige recursie kosten.
     private NumberLiteral LRcurrentCalculation(Operation op) {
         NumberLiteral left = (NumberLiteral) expressionToLiteral(op.lhs);

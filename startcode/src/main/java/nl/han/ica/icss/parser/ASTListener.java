@@ -44,9 +44,10 @@ public class ASTListener extends ICSSBaseListener{
 
 	@Override
 	public void enterStylerule(ICSSParser.StyleruleContext ctx) {
-		Stylerule newRule = new Stylerule();
-		currentContainer.peek().addChild(newRule);
-		currentContainer.push(newRule);
+//		Stylerule newRule = new Stylerule();
+//		currentContainer.peek().addChild(newRule);
+//		currentContainer.push(newRule);
+		push(new Stylerule());
 	}
 
 	@Override
@@ -73,9 +74,10 @@ public class ASTListener extends ICSSBaseListener{
 
 	@Override
 	public void enterDeclaration(ICSSParser.DeclarationContext ctx) {
-		Declaration newDec = new Declaration(ctx.propertyname().getText());
-		currentContainer.peek().addChild(newDec);
-		currentContainer.push(newDec);
+//		Declaration newDec = new Declaration(ctx.propertyname().getText());
+//		currentContainer.peek().addChild(newDec);
+//		currentContainer.push(newDec);
+		push(new Declaration(ctx.propertyname().getText()));
 	}
 
 	@Override
@@ -85,9 +87,10 @@ public class ASTListener extends ICSSBaseListener{
 
 	@Override
 	public void enterDeclare_variable(ICSSParser.Declare_variableContext ctx) {
-		VariableAssignment newVariable = new VariableAssignment();
-		currentContainer.peek().addChild(newVariable);
-		currentContainer.push(newVariable);
+//		VariableAssignment newVariable = new VariableAssignment();
+//		currentContainer.peek().addChild(newVariable);
+//		currentContainer.push(newVariable);
+		push(new VariableAssignment());
 	}
 
 	@Override
@@ -202,7 +205,7 @@ public class ASTListener extends ICSSBaseListener{
 
 	@Override
 	public void enterBoolean_expression(ICSSParser.Boolean_expressionContext ctx) {
-		if (ctx.expression_non_recur() != null || !(isStackedBooleanExpression(ctx.getChild(1).getText()) || ctx.getChild(0).getText().equals("!")))
+		if (ctx.expression_non_recur() != null || !(isStackedBooleanExpression(ctx.getChild(1).getText()) || ctx.NOT() != null))
 			return;
 
 		BooleanExpression operation = null;
@@ -239,7 +242,7 @@ public class ASTListener extends ICSSBaseListener{
 
 	@Override
 	public void exitBoolean_expression(ICSSParser.Boolean_expressionContext ctx) {
-		if (ctx.expression_non_recur() != null || !(isStackedBooleanExpression(ctx.getChild(1).getText()) || ctx.getChild(0).getText().equals("!")))
+		if (ctx.expression_non_recur() != null || !(isStackedBooleanExpression(ctx.getChild(1).getText()) || ctx.NOT() != null))
 			return;
 		currentContainer.pop();
 	}

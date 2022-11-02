@@ -37,14 +37,6 @@ public class OperationCheck extends BaseCheck {
         } else if (lhs == ExpressionType.BOOL || rhs == ExpressionType.BOOL) {
             node.setError("Don't use booleans in operations");
         }
-//        for (ASTNode ex : op.getChildren()) {
-//            if (!(ex instanceof Operation)) {
-//                ExpressionType type = resolve_type_of_lit_op_varreference((Expression) ex);
-//                if (type == ExpressionType.COLOR)
-//                    node.setError("Don't use colours in operations");
-//                if (type == ExpressionType.BOOL)
-//                    node.setError("Don't use booleans in operations");
-//            }
-//        }
+
     }
 }

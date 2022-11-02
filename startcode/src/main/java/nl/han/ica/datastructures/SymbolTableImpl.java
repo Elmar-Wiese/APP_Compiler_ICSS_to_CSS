@@ -6,8 +6,7 @@ import nl.han.ica.icss.ast.Literal;
 import java.util.HashMap;
 import java.util.List;
 
-public class SymbolTableImpl<K, V> {
-    //IHANLinkedList<HashMap<String, Expression>> symbolsScope;
+public class SymbolTableImpl<K, V> implements ISymbolTable<K, V>{
     IHANLinkedList<HashMap<K, V>> symbolsScope;
 
     public SymbolTableImpl() {
@@ -18,22 +17,25 @@ public class SymbolTableImpl<K, V> {
         HashMap globalscope = new HashMap();
         symbolsScope = new LinkedListImpl<>();
         symbolsScope.addFirst(globalscope);
-
     }
 
+    @Override
     public void newScope() {
         symbolsScope.insert(symbolsScope.getSize() , new HashMap<>());
     }
 
+    @Override
     public void removeScope() {
         symbolsScope.delete(symbolsScope.getSize() - 1);
     }
 
+    @Override
     public void assignSymbol(K name, V value) {
         HashMap<K, V> currentScope = symbolsScope.get(symbolsScope.getSize() - 1);
         currentScope.put(name, value);
     }
 
+    @Override
     public V getValue(K name) {
         for (int i = symbolsScope.getSize() - 1; i >= 0; i--) {
             HashMap<K, V> scope = symbolsScope.get(i);

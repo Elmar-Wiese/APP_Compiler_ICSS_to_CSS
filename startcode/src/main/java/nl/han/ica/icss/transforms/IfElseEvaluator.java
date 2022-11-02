@@ -17,11 +17,6 @@ public class IfElseEvaluator extends BaseTransform{
 
         IfClause ifClause = (IfClause) childNode;
         BoolLiteral condition = (BoolLiteral) ev.expressionToLiteral(ifClause.conditionalExpression);
-//        if (ifClause.conditionalExpression instanceof Literal) {
-//            condition = (BoolLiteral) ifClause.conditionalExpression;
-//        } else if (ifClause.conditionalExpression instanceof VariableReference) {
-//            condition = (BoolLiteral) ev.getSymbolTable().getValue(((VariableReference)ifClause.conditionalExpression).name);
-//        }
         if (condition.value) {
             ev.evaluateNodes(childNode);
             replaceNodeWithNodes(parent, childNode, ifClause.body);

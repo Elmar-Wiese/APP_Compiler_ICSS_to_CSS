@@ -1,5 +1,6 @@
 package nl.han.ica.icss.checker;
 
+import nl.han.ica.datastructures.ISymbolTable;
 import nl.han.ica.datastructures.SymbolTableImpl;
 import nl.han.ica.icss.ast.*;
 import nl.han.ica.icss.ast.types.ExpressionType;
@@ -7,7 +8,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class Checker {
-    private SymbolTableImpl<String, ExpressionType> symbolTable;
+    private ISymbolTable<String, ExpressionType> symbolTable;
     private List<BaseCheck> checks;
 
     public Checker() {
@@ -87,12 +88,6 @@ public class Checker {
     }
 
     private void checkNode(ASTNode childNode) {
-        //checkCH01CH06(childNode);
-        //checkCH04(childNode); // Kan CH02 en CH04 samenvoegen.
-        //checkCH02(childNode);
-        //checkCH05(childNode);
-        //checkCH03(childNode);
-        //checkEigenCheck1(childNode);
         for (BaseCheck bc: checks) {
             bc.checkRule(childNode);
         }

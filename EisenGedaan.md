@@ -157,12 +157,15 @@ Input
     Scalar := 2px;
     Correct := 1 < Scalar; // Error
 
+    MustBeANumber := #ffff00 < #ffffff;
+
     AND := 33 && 33;
 
     N0T := !8;
 Output
 
     ERROR: The values of the comparison operation must be of the same type
+    ERROR: The values of the comparison operation must be a Number
     ERROR: The values of a boolean comparison must be boolean.
     ERROR: Only boolean values can be used with Not Operator
 

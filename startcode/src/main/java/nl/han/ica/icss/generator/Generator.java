@@ -3,8 +3,6 @@ package nl.han.ica.icss.generator;
 
 import nl.han.ica.icss.ast.*;
 
-import java.util.Iterator;
-
 public class Generator {
 
 
