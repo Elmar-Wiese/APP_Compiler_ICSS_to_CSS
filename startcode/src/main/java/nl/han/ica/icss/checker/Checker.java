@@ -8,7 +8,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class Checker {
-    private ISymbolTable<String, ExpressionType> symbolTable;
+    public ISymbolTable<String, ExpressionType> symbolTable;
     private List<BaseCheck> checks;
 
     public Checker() {
@@ -18,6 +18,7 @@ public class Checker {
         checks.add(new IfCheck(this));
         checks.add(new OperationCheck(this));
         checks.add(new BooleanExpressionChecker(this));
+        checks.add(new VariableAssignmentCheck(this));
     }
 
     public void check(AST ast) {
@@ -38,6 +39,11 @@ public class Checker {
     }
 
     private void aftersymboltable(ASTNode childNode) {
+        if(childNode instanceof VariableAssignment) {
+            VariableAssignment var = (VariableAssignment) childNode;
+            symbolTable.assignSymbol(var.name.name, resolve_type_of_lit_op_varreference(var.expression));
+        }
+
         if(childNode instanceof Stylerule || childNode instanceof IfClause) {
             symbolTable.removeScope();
         }
@@ -51,10 +57,7 @@ public class Checker {
             symbolTable.removeScope();
             symbolTable.newScope();
         }
-        if(childNode instanceof VariableAssignment) {
-            VariableAssignment var = (VariableAssignment) childNode;
-            symbolTable.assignSymbol(var.name.name, resolve_type_of_lit_op_varreference(var.expression));
-        }
+
     }
 
     public ExpressionType resolve_type_of_lit_op_varreference(Expression ex) {

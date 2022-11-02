@@ -21,6 +21,7 @@ Eigen uitbreidingen (20 punten)
 | 4 | ✔ | Controleer of er geen booleans worden gebruikt in de operaties (plus, min en keer). | 2      |
 | 5 | ✔ | ( operaties ) geeft voorang | 3      |
 | 6 | ✔ | 2^2 machten toevoegen. Machten kunnen alleen SCALAIR zijn en volgen regel CH02 | 5      |
+| 7 | ✔ | Iedere variabele mag alleen een vast type hebben. Dan mag Var := 10px; en daarna Var := 5%; niet voorkomen. | 4 |
 
 # Test voorbeelden
 
@@ -141,13 +142,14 @@ Input
         }
     }
 Output
-
+```css
     p {
         height: 200px;
     }
     #bovenaan {
         background-color: #ffffff;
     }
+```
 ## Eigen 2
 35 min
 Input
@@ -184,10 +186,11 @@ Input
     } */
 
 Output
-
+```css
     p {
     width: 20px;
     }
+```
 ## Eigen 4
 Input
 
@@ -216,11 +219,12 @@ Input
     }
 
 Output
-
+```css
     div {
         width: 68px;
         height: 66px;
     }
+```
 ## Eigen 6
 14:01 start tot 14:46
 
@@ -231,10 +235,11 @@ Input
         width: 20 ^ 2 * 20px;
     }
 Output
-
+```css
     p {
         width: 8000px;
     }
+```
 Check only scalar values
 Input
 
@@ -247,6 +252,26 @@ Output
     ERROR: Exponentiation operations can only be done on scalar values and/or use scalar values
     ERROR: Exponentiation operations can only be done on scalar values and/or use scalar values
 
+## Eigen 7
+Input
+
+    Width:= 55px;
+
+    p {
+        Width:= 10px;
+        Width:= 20%; // Error
+        width: Width;
+
+        Height:=1%;
+    }
+
+    .banner {
+        Height:=33%;
+        height:Height;
+    }
+Output
+
+    ERROR: Variables must be of one type.
 ## Los 
 Ben toch niet helemaal blij dat dit niet werd geparsed. Dus opgelost.
 Input
@@ -256,7 +281,8 @@ Input
     }
 
 Output
-
+```css
     #223344 {
         color: #223344;
     }
+```
